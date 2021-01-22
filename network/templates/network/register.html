@@ -2,6 +2,7 @@
 
 {% block body %}
 
+<div class="col col-12 border">
     <h2>Register</h2>
 
     {% if message %}
@@ -26,5 +27,5 @@
     </form>
 
     Already have an account? <a href="{% url 'login' %}">Log In here.</a>
-
+</div>
 {% endblock %}

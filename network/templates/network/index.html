@@ -1,5 +1,23 @@
 {% extends "network/layout.html" %}
 
 {% block body %}
-    TODO
+<!-- New Post form -->
+<div id="posts-wrapper" class="col-12">
+    <div class="col col-12 border">
+        <h4>New Post:</h4>
+        <form>
+            {% csrf_token %}
+            <div class="form-group" id="new-post-form">
+                <input id="new-post-body"class="form-control" type="text" placeholder="What are you thinking today?">
+            </div>
+            <input class="btn btn-primary" type="submit" value="Post">
+        </form>
+    </div>
+</div>
+<div id="following-wrapper" class="col-12">
+    Implement Following here
+</div>
+<div id="user-wrapper" class="col-12">
+    Implement User here
+</div>
 {% endblock %}

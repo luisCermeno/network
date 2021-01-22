@@ -1,0 +1,11 @@
+.main{
+    margin: 20px 10% 20px 10%;
+    padding: 0px 0px;
+}
+.row{
+    margin: 0px 0px
+}
+.col{
+    padding: 20px 20px;
+    border-radius: 15px;
+}
