@@ -1,3 +1,12 @@
+/* navbar */
+.nav-item > a:hover{
+    cursor: pointer;
+}
+.active{
+    font-weight: 400;
+}
+
+/* body */
 .main{
     margin: 20px 10% 20px 10%;
     padding: 0px 0px;
@@ -5,6 +14,8 @@
 .row{
     margin: 0px 0px
 }
+
+/* main */
 .col{
     padding: 20px 20px;
     border-radius: 15px;

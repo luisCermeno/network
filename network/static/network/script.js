@@ -1,67 +1,53 @@
 // When back arrow is clicked, show previous section
 window.onpopstate = function(event) {
-    console.log(event.state.section);
     showSection(event.state.section);
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-    //Listen for click on buttons in the navbar
-    allposts_btn = document.querySelector('#nav-allposts-btn');
-    following_btn = document.querySelector('#nav-following-btn')
-    user_btn = document.querySelector('#nav-user-btn');
-    allposts_btn.onclick = () => {
-        // Add the current state to the history
-        history.pushState({section: allposts_btn.innerHTML}, "", `${allposts_btn.innerHTML}`);
-        // Load section
-        load_allposts();
-    } 
-    following_btn.onclick = () => {
-        // Add the current state to the history
-        history.pushState({section: following_btn.innerHTML}, "", `${following_btn.innerHTML}`);
-        // Load section
-        load_following();
-    } 
-    user_btn.onclick = () => {
-        // Add the current state to the history
-        history.pushState({section: user_btn.firstChild.innerHTML}, "", `${user_btn.firstChild.innerHTML}`);
-        load_user();
-    } 
+    document.querySelectorAll('.section-btn').forEach(button => {
+        button.onclick = function() {
+            const section = this.dataset.section;
+            const section_name = this.innerHTML
+            // Add the current state to the history
+            history.pushState({section: section}, "", `${section_name}`);
+            showSection(section);
+        };
+    });
 
     //By default, load allpost first
-    load_allposts()
+    showSection(2)
 });
 
 function showSection(section){
-    switch (section){
+    console.log(`showSection() entered with value of section: ${section}`)
+    switch (parseInt(section)){
         case 1:
-            load_allposts()
+            console.log(`Loading section ${section}`)
+            load_user()
             break
         case 2:
-            load_following()
+            console.log(`Loading section ${section}`)
+            load_allposts()
             break;
         case 3:
-            load_user()
+            console.log(`Loading section ${section}`)
+            load_following()
     }
 }
-function load_allposts()
-{
 
+function load_allposts(){
     document.querySelector('#posts-wrapper').style.display = 'flex'
     document.querySelector('#following-wrapper').style.display = 'none'
     document.querySelector('#user-wrapper').style.display = 'none'
 }
 
-function load_following()
-{
-    console.log('click on following')
+function load_following(){
     document.querySelector('#posts-wrapper').style.display = 'none'
     document.querySelector('#following-wrapper').style.display = 'flex'
     document.querySelector('#user-wrapper').style.display = 'none'
 }
 
-function load_user()
-{
-    console.log('click on user')
+function load_user(){
     document.querySelector('#posts-wrapper').style.display = 'none'
     document.querySelector('#following-wrapper').style.display = 'none'
     document.querySelector('#user-wrapper').style.display = 'flex'
