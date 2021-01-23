@@ -35,9 +35,11 @@ function showSection(section){
 //All posts section
 function allposts_view(){
     console.log('Running allposts_view()')
-    document.querySelector('#posts-wrapper').style.display = 'flex'
+    document.querySelector('#posts-wrapper').style.display = 'block'
     document.querySelector('#following-wrapper').style.display = 'none'
     document.querySelector('#user-wrapper').style.display = 'none'
+    //Clear wrapper in case post have already been apended
+    document.querySelector('#posts-wrapper').innerHTML = document.querySelector('#col_form').outerHTML
     //Listen for new post submission
     listen_new_post()
     //Request posts rom database
@@ -105,7 +107,6 @@ function load_posts(filter){
       col_post.className = 'col col-12 border'
       col_post.dataset.postid = posts[i].id;
       col_post.innerHTML = posts[i].body;
-
       //Append post col to the posts wrapper
       document.querySelector('#posts-wrapper').append(col_post);
     }
@@ -115,12 +116,12 @@ function load_posts(filter){
 //Following section
 function following_view(){
     document.querySelector('#posts-wrapper').style.display = 'none'
-    document.querySelector('#following-wrapper').style.display = 'flex'
+    document.querySelector('#following-wrapper').style.display = 'block'
     document.querySelector('#user-wrapper').style.display = 'none'
 }
 //User section
 function user_view(){
     document.querySelector('#posts-wrapper').style.display = 'none'
     document.querySelector('#following-wrapper').style.display = 'none'
-    document.querySelector('#user-wrapper').style.display = 'flex'
+    document.querySelector('#user-wrapper').style.display = 'block'
 }
