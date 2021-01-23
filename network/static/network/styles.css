@@ -11,6 +11,7 @@
     padding: 0px 0px;
 }
 .row{
+    width: 600px;
     margin: 30px 0px;
 }
 
@@ -18,4 +19,5 @@
 .col{
     padding: 20px 20px;
     border-radius: 15px;
+    margin: 10px 0px;
 }

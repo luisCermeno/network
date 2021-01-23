@@ -14,3 +14,12 @@ class Post(models.Model):
 
     def __str__(self):
         return f"Post by {self.user} on {self.timestamp}: {self.body}"
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "user": self.user.username,
+            "body": self.body,
+            "timestamp": self.timestamp.strftime("%b %-d %Y, %-I:%M %p"),
+            "likes": [user.username for user in self.likes.all()], 
+        }

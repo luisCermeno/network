@@ -23,23 +23,25 @@ function showSection(section){
     console.log(`Running showSection() with value of section = ${section}`)
     switch (parseInt(section)){
         case 1:
-            load_user()
+            user_view()
             break
         case 2:
-            load_allposts()
+            allposts_view()
             break;
         case 3:
-            load_following()
+            following_view()
     }
 }
 //All posts section
-function load_allposts(){
-    console.log('Running load_allposts()')
+function allposts_view(){
+    console.log('Running allposts_view()')
     document.querySelector('#posts-wrapper').style.display = 'flex'
     document.querySelector('#following-wrapper').style.display = 'none'
     document.querySelector('#user-wrapper').style.display = 'none'
     //Listen for new post submission
     listen_new_post()
+    //Request posts rom database
+    load_posts('all_posts')
 }
 
 function listen_new_post(){
@@ -79,23 +81,45 @@ function listen_new_post(){
               // Print result
               console.log(result);
           })
-        //Load posts again
+        //Listen for new post again
         listen_new_post()()
         //Stop form from submitting
         return false
     }
 }
 
+//Load posts function
+function load_posts(filter){
+  //Fetch from API
+  fetch(`/get/posts/${filter}`)
+  //Then, get the response and convert it to jason
+  .then(response => response.json())
+  //Then, build html with data
+  .then(posts => {
+    //Log the JSON response to console
+    console.log(posts)
+    // Traverse the json object gotten from the response
+    for (i = 0; i < posts.length; i++) {
+      //For each post create a col div
+      const col_post = document.createElement('div');
+      col_post.className = 'col col-12 border'
+      col_post.dataset.postid = posts[i].id;
+      col_post.innerHTML = posts[i].body;
 
+      //Append post col to the posts wrapper
+      document.querySelector('#posts-wrapper').append(col_post);
+    }
+    });
+}
 
 //Following section
-function load_following(){
+function following_view(){
     document.querySelector('#posts-wrapper').style.display = 'none'
     document.querySelector('#following-wrapper').style.display = 'flex'
     document.querySelector('#user-wrapper').style.display = 'none'
 }
 //User section
-function load_user(){
+function user_view(){
     document.querySelector('#posts-wrapper').style.display = 'none'
     document.querySelector('#following-wrapper').style.display = 'none'
     document.querySelector('#user-wrapper').style.display = 'flex'

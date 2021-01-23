@@ -82,3 +82,18 @@ def post(request):
     new_post = Post(user = request.user, body = body)
     new_post.save()
     return JsonResponse({"message": "Post save successfully."}, status=201)
+
+@csrf_exempt
+@login_required(login_url='/login')
+def get_posts(request, data):
+    # Filter emails returned based on mailbox
+    if data == "all_posts":
+        posts = Post.objects.all()
+    elif data == "own_posts":
+        posts = Post.objects.filter(user=request.user)
+    else:
+        return JsonResponse({"error": "Invalid filter for posts."}, status=400)
+
+    # Return emails in reverse chronologial order
+    posts = posts.order_by("-timestamp").all()
+    return JsonResponse([post.serialize() for post in posts], safe=False)
