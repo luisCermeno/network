@@ -23,29 +23,28 @@
 
 /* post styling */
 /* user */
-[data-section="0"] > a{
+.post-usertime-section > a{
     color: black;
    font-weight: 600;
 }
 /* body */
-[data-section="1"] {
+.post-body-section {
     font-family: Helvetica, sans-serif;
     
 }
-/* timestamp */
-[data-section="2"] {
-    color: rgb(91, 112, 131)
-   
-}
 /* likes */
-[data-section="3"] {
+.post-likes-section {
    
 }
 /* comments */
-[data-section="4"] {
+.post-comments-section {
    
 }
 
+.timestamp{
+    font-size: 0.9rem;
+    color: rgb(91, 112, 131)
+}
 svg{
     height: 19.2px;
     width: 19.2px;

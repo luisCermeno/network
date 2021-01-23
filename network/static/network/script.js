@@ -108,7 +108,7 @@ function load_posts(filter){
             col_post.className = 'col col-12 border'
             col_post.dataset.postid = post.id;
             //Create colums inside the fiv
-            for(j = 0; j < 5; j++){
+            for(j = 0; j < 4; j++){
                 section = document.createElement('div')
                 section.className = 'post-section'
                 section.dataset.section = j
@@ -122,31 +122,38 @@ function load_posts(filter){
             //Create a likes span
             likes = document.createElement("span")
             likes.innerHTML = `${post.likes.length}`
-            
+            //Create a timestamp span
+            timestamp = document.createElement("span")
+            timestamp.className = 'timestamp'
+            timestamp.innerHTML = ` &middot ${post.timestamp}`
+            //Create an anchor elemente
+            user = document.createElement("a")
+            user.href = '#'
+            user.innerHTML = `@${post.user}`
 
             //Get the colums created and fill them with data
             for (j = 0; j < col_post.children.length; j++) {
                 switch(parseInt(col_post.children[j].dataset.section)){
                     //User section
                     case 0:
-                        col_post.children[j].innerHTML = `<a href='#'>@${post.user}</a>`
+                        col_post.children[j].className = 'post-usertime-section'
+                        col_post.children[j].append(user)
+                        col_post.children[j].append(timestamp)
                         break
                     //Body section
                     case 1:
+                        col_post.children[j].className = 'post-body-section'
                         col_post.children[j].innerHTML = post.body
                         break
-                    //Timestamp section
+                    //Likes section
                     case 2:
-                        col_post.children[j].innerHTML = post.timestamp
+                        col_post.children[j].className = 'post-likes-section'
+                        col_post.children[j].append(heart)
+                        col_post.children[j].append(likes)
                         break
                     //Likes section
                     case 3:
-                        col_post.children[j].append(heart)
-                        col_post.children[j].append(likes)
-
-                        break
-                    //Comments section
-                    case 4:
+                        col_post.children[j].className = 'post-comments-section'
                         col_post.children[j].innerHTML = 'Comments:'
                         break
                 }
