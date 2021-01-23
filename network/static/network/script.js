@@ -91,24 +91,58 @@ function listen_new_post(){
 
 //Load posts function
 function load_posts(filter){
-  //Fetch from API
-  fetch(`/get/posts/${filter}`)
-  //Then, get the response and convert it to jason
-  .then(response => response.json())
-  //Then, build html with data
-  .then(posts => {
-    //Log the JSON response to console
-    console.log(posts)
-    // Traverse the json object gotten from the response
-    for (i = 0; i < posts.length; i++) {
-      //For each post create a col div
-      const col_post = document.createElement('div');
-      col_post.className = 'col col-12 border'
-      col_post.dataset.postid = posts[i].id;
-      col_post.innerHTML = posts[i].body;
-      //Append post col to the posts wrapper
-      document.querySelector('#posts-wrapper').append(col_post);
-    }
+    //Fetch from API
+    fetch(`/get/posts/${filter}`)
+    //Then, get the response and convert it to jason
+    .then(response => response.json())
+    //Then, build html with data
+    .then(posts => {
+        //Log the JSON response to console
+        console.log(posts)
+        // Traverse the json object gotten from the response
+        for (i = 0; i < posts.length; i++) {
+            //Store the object in a new variable
+            let post = posts[i]
+            //For each post create a col div
+            const col_post = document.createElement('div');
+            col_post.className = 'col col-12 border'
+            col_post.dataset.postid = post.id;
+            //Create colums inside the fiv
+            for(j = 0; j < 5; j++){
+                section = document.createElement('div')
+                section.className = 'post-section'
+                section.dataset.section = j
+                col_post.append(section)
+            }
+
+            //Get the colums created and fill them with data
+            for (j = 0; j < col_post.children.length; j++) {
+                switch(parseInt(col_post.children[j].dataset.section)){
+                    //User section
+                    case 0:
+                        col_post.children[j].innerHTML = post.user
+                        break
+                    //Body section
+                    case 1:
+                        col_post.children[j].innerHTML = post.body
+                        break
+                    //Timestamp section
+                    case 2:
+                        col_post.children[j].innerHTML = post.timestamp
+                        break
+                    //Likes section
+                    case 3:
+                        col_post.children[j].innerHTML = `Likes: ${post.likes.length}`
+                        break
+                    case 4:
+                        col_post.children[j].innerHTML = 'add comment section here'
+                        break
+                }
+            }
+
+            //Append post col to the posts wrapper
+            document.querySelector('#posts-wrapper').append(col_post);
+        }
     });
 }
 
