@@ -7,7 +7,7 @@
     <!-- Posts view -->
     <div class="col-6" id="posts-wrapper">
         <div id="col_form"class="col col-12 border">
-            <h4>New Post:</h4>
+            <h5>New Post:</h5>
             <form id="new-post-form" action="" method='POST'>
                 <div class="form-group" id="new-post-form">
                     <input required autocomplete="off" id="new-post-body"class="form-control" type="text" placeholder="What are you thinking today?">
@@ -20,6 +20,15 @@
     <div class="col-6" id="following-wrapper">Implement Following here</div>
     <!-- User view -->
     <div class="col-6" id="user-wrapper">Implement User here</div>
-    <div class="col-3"></div>
+    <div class="col-3">
+    </div>
+    <!-- heart icon -->
+    <svg style="display: none" viewBox="0 0 100 100" class="heart-button">
+        <path d="M 10,30
+        A 20,20 0,0,1 50,30
+        A 20,20 0,0,1 90,30
+        Q 90,60 50,90
+        Q 10,60 10,30 z"/>
+    </svg>
 </div>
 {% endblock %}

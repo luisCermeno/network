@@ -114,13 +114,22 @@ function load_posts(filter){
                 section.dataset.section = j
                 col_post.append(section)
             }
+            //Create a clone of the heart svg span
+            heart = document.createElement("span")
+            heart.innerHTML = document.querySelector('.heart-button').outerHTML
+            heart.firstChild.style.display = 'inline'
+            heart.dataset.post_id = post.id
+            //Create a likes span
+            likes = document.createElement("span")
+            likes.innerHTML = `${post.likes.length}`
+            
 
             //Get the colums created and fill them with data
             for (j = 0; j < col_post.children.length; j++) {
                 switch(parseInt(col_post.children[j].dataset.section)){
                     //User section
                     case 0:
-                        col_post.children[j].innerHTML = post.user
+                        col_post.children[j].innerHTML = `<a href='#'>@${post.user}</a>`
                         break
                     //Body section
                     case 1:
@@ -132,10 +141,13 @@ function load_posts(filter){
                         break
                     //Likes section
                     case 3:
-                        col_post.children[j].innerHTML = `Likes: ${post.likes.length}`
+                        col_post.children[j].append(heart)
+                        col_post.children[j].append(likes)
+
                         break
+                    //Comments section
                     case 4:
-                        col_post.children[j].innerHTML = 'add comment section here'
+                        col_post.children[j].innerHTML = 'Comments:'
                         break
                 }
             }
