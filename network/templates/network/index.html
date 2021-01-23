@@ -5,12 +5,11 @@
 <div id="posts-wrapper" class="col-6">
     <div class="col col-12 border">
         <h4>New Post:</h4>
-        <form>
-            {% csrf_token %}
+        <form id="new-post-form">
             <div class="form-group" id="new-post-form">
-                <input id="new-post-body"class="form-control" type="text" placeholder="What are you thinking today?">
+                <input required autocomplete="off" id="new-post-body"class="form-control" type="text" placeholder="What are you thinking today?">
             </div>
-            <input class="btn btn-primary" type="submit" value="Post">
+            <input class="btn btn-primary" id="submit" type="submit" value="Post">
         </form>
     </div>
 </div>

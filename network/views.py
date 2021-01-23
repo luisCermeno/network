@@ -5,7 +5,11 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 
-from .models import User
+import json
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+
+from .models import *
 
 @login_required(login_url='/login')
 def index(request):
@@ -62,3 +66,19 @@ def register(request):
         return HttpResponseRedirect(reverse("index"))
     else:
         return render(request, "network/register.html")
+
+@csrf_exempt
+@login_required(login_url='/login')
+def post(request):
+    # Adding a post must be via POST
+    if request.method != "POST":
+        return JsonResponse({"error": "POST request required."}, status=400)
+
+    # Get body of the post
+    data = json.loads(request.body)
+    body = data.get("body", "")
+
+    # Create a post object and save it
+    new_post = Post(user = request.user, body = body)
+    new_post.save()
+    return JsonResponse({"message": "Post save successfully."}, status=201)
