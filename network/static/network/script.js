@@ -83,8 +83,7 @@ function listen_new_post(){
               // Print result
               console.log(result);
           })
-        //Listen for new post again
-        listen_new_post()()
+          .then(allposts_view())
         //Stop form from submitting
         return false
     }
