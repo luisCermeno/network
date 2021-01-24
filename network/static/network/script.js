@@ -138,6 +138,11 @@ function load_posts(filter){
             timestamp = document.createElement("span")
             timestamp.className = 'timestamp'
             timestamp.innerHTML = ` &middot ${post.timestamp}`
+            //Create a div for the body
+            post_body = document.createElement("div")
+            post_body.className = 'post-body'
+            post_body.dataset.post_id = post.id
+
             //Create edit button
             edit_btn = document.createElement("button")
             edit_btn.className = 'edit-btn btn btn-link'
@@ -165,7 +170,8 @@ function load_posts(filter){
                     //Body section
                     case 1:
                         col_post.children[j].className = 'post-body-section'
-                        col_post.children[j].innerHTML = post.body
+                        post_body.innerHTML = post.body
+                        col_post.children[j].append(post_body)
                         if (request_user == post.user){
                             col_post.children[j].append(edit_btn)
                         }
@@ -212,6 +218,9 @@ function listen_edit(){
             //Show the form section and hide the body section
             document.querySelector(`[data-post_id="${post_id}"].post-body-section`).style.display = 'none'
             document.querySelector(`[data-post_id="${post_id}"].post-edit_form-section`).style.display = 'block'
+            //Prefill the form with existing body of post
+            textarea = document.querySelector(`[data-post_id="${post_id}"].edit-form textarea`)
+            textarea.value = document.querySelector(`[data-post_id="${post_id}"].post-body`).innerHTML
             //Listen for edit forms
             listen_edit_form()
         }
