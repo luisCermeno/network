@@ -103,18 +103,34 @@ def get_posts(request, data):
 def edit_post(request, post_id):
     # Query for requested post
     try:
-        post = Post.objects.get(pk=post_id, user=request.user)
+        post = Post.objects.get(pk=post_id)
     except Post.DoesNotExist:
         return JsonResponse({"error": "Post not found."}, status=404)
 
     if request.method == "PUT":
         data = json.loads(request.body)
-        if data.get("body") is not None:
-            post.body = data["body"]
-        post.save()
-        return JsonResponse({
-            "message": f'Post {post.id} edited successfully'
-        }, status=201)
+        if data.get("action") == 'edit':
+            if(post.user == request.user):
+                post.body = data["body"]
+                post.save()
+                return JsonResponse({
+                    "message": f'Post {post.id} edited successfully'
+                }, status=201)
+            else:
+                return JsonResponse({"error": "Acess Denied"}, status=403)
+
+        elif data.get("action") == 'like':
+            post.likes.add(request.user)
+            post.save()
+            return JsonResponse({
+                "message": f'Post {post.id} liked successfully'
+            }, status=201)
+        elif data.get("action") == 'unlike':
+            post.likes.remove(request.user)
+            post.save()
+            return JsonResponse({
+                "message": f'Post {post.id} unliked successfully'
+            }, status=201)
     else:
         return JsonResponse({
             "error": "PUT request required."

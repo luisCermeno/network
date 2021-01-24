@@ -222,39 +222,49 @@ function listen_like(){
             //Get the counter of likes
             nLikes_div = document.querySelector(`[data-post_id="${post_id}"].post-nLikes`)
             nLikes = parseInt(nLikes_div.innerHTML)
-            console.log(`Like button clicked for post ${post_id} pressed`)
+            console.log(`Like button clicked for post ${post_id}`)
             //Like post
             if (button.dataset.liked == 'false'){
                 // Submit PUT request to API
-                    // fetch(`/like/post/${post_id}`, {
-                    //     method: 'PUT',
-                    //     body: JSON.stringify({
-                    //             likes: request_user
-                    //         }),
-                    // })
-                    // .then(response => {
-                    //     //If liking is successful
-                    //     if (response.status == 201){
-                    //     console.log(`Post ${post_id} liked successfully`);
-                    //     //Increment like counter
-                    //     //Change like button dataser liked
-                    //     }
-                    // })
+                fetch(`/edit/post/${post_id}`, {
+                    method: 'PUT',
+                    body: JSON.stringify({
+                            action: 'like'
+                        }),
+                })
+                .then(response => {
+                    //If liking is successful
+                    if (response.status == 201){
+                    console.log(`Post ${post_id} liked successfully`);
                     //Increment counter
                     nLikes++
                     nLikes_div.innerHTML = nLikes.toString()
                     //Change button style
                     button.dataset.liked = 'true'
+                    }
+                })
             }
             //Unlike post
             else{
-                //Decrement counter
-                nLikes--
-                nLikes_div.innerHTML = nLikes.toString()
-                //Change button style
-                button.dataset.liked = 'false'
+                // Submit PUT request to API
+                fetch(`/edit/post/${post_id}`, {
+                    method: 'PUT',
+                    body: JSON.stringify({
+                            action: 'unlike'
+                        }),
+                })
+                .then(response => {
+                    //If liking is successful
+                    if (response.status == 201){
+                    console.log(`Post ${post_id} unliked successfully`);
+                    //Increment counter
+                    nLikes--
+                    nLikes_div.innerHTML = nLikes.toString()
+                    //Change button style
+                    button.dataset.liked = 'false'
+                    }
+                })
             }
-
         }
     })  
 }
@@ -267,7 +277,7 @@ function listen_edit(){
         button.onclick = () => {
             //Get the id of the post
             post_id = button.dataset.post_id
-            console.log(`Edit button clicked for post ${post_id} pressed`)
+            console.log(`Edit button clicked for post ${post_id}`)
             //Show the form section and hide the body section
             document.querySelector(`[data-post_id="${post_id}"].post-body-section`).style.display = 'none'
             document.querySelector(`[data-post_id="${post_id}"].post-edit_form-section`).style.display = 'block'
@@ -293,6 +303,7 @@ function listen_edit_form(){
             fetch(`/edit/post/${post_id}`, {
                 method: 'PUT',
                 body: JSON.stringify({
+                        action: 'edit',
                         body: new_body
                       }),
               })
