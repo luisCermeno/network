@@ -1,3 +1,7 @@
+.edit-btn{
+    padding: 0px 0px;
+}
+
 /* navbar */
 .nav-item > a:hover{
     cursor: pointer;
@@ -55,4 +59,8 @@ svg{
 svg:hover{
     fill: red;
     cursor: pointer;
+}
+
+.btn-link{
+    padding: 0px 0px;
 }
