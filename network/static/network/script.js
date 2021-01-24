@@ -6,6 +6,7 @@ window.onpopstate = function(event) {
 //Get who the user is
 const request_user = JSON.parse(document.getElementById('request_user').textContent);
 
+
 //Start script once the content is loaded
 document.addEventListener('DOMContentLoaded', function() {
     
@@ -360,8 +361,23 @@ function profile_view(username){
         document.querySelector('#profile-username').innerHTML = `@${user.username}`
         document.querySelector('#profile-nFollowers').innerHTML = `<b>${user.followers.length} </b>  Followers`
         document.querySelector('#profile-nFollowing').innerHTML = `<b> ${user.following.length}  </b> Following`
+        //Get the data from the request user
+        fetch(`get/profile/${request_user}`).then(response => response.json()).then(data => {
+            var request_user_data = data[0]
+            console.log(request_user_data)
+            if (request_user != user.username){
+                console.log('Follow button must be shown!')
+                document.querySelector('#follow-btn').style.display = 'block'
+                if (request_user_data.following.includes(user.username)){
+                    document.querySelector('#follow-btn').innerHTML = 'Unfollow'
+                }
+                else{
+                    document.querySelector('#follow-btn').innerHTML = 'Follow'
+                }
+            }
+            else{
+                document.querySelector('#follow-btn').style.display = 'none'
+            }
+        })
     })
-    //Build HTML
-    // document.querySelector('#profile-name').innerHTML
-
 }
