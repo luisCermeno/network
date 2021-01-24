@@ -3,7 +3,7 @@ from django.db import models
 
 
 class User(AbstractUser):
-    following = models.ManyToManyField("User", related_name='followers')
+    following = models.ManyToManyField("User", related_name='followers',blank=True)
     def __str__(self):
         return f"{self.username}"
     
@@ -12,8 +12,8 @@ class User(AbstractUser):
             "username" : self.username,
             "first_name": self.first_name,
             "last_name": self.last_name,
-            "following": self.following.all,
-            "followers": self.followers.all,
+            "following": [user.username for user in self.following.all()],
+            "followers": [user.username for user in self.followers.all()]
         }
 
 class Post(models.Model):
