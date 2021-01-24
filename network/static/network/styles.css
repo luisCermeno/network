@@ -38,11 +38,12 @@
 }
 /* likes */
 .post-likes-section {
+    color: rgb(91, 112, 131)
    
 }
 /* comments */
 .post-comments-section {
-   
+    color: rgb(91, 112, 131)
 }
 
 .timestamp{
@@ -63,7 +64,9 @@ svg:hover{
 
 .btn-link{
     padding: 0px 0px;
+    color: rgb(91, 112, 131)
 }
 .edit-btn{
     display: block;
+    color: rgb(91, 112, 131);
 }

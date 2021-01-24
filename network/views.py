@@ -103,7 +103,7 @@ def get_posts(request, data):
 def edit_post(request, post_id):
     # Query for requested post
     try:
-        post = Post.objects.get(pk=post_id)
+        post = Post.objects.get(pk=post_id, user=request.user)
     except Post.DoesNotExist:
         return JsonResponse({"error": "Post not found."}, status=404)
 

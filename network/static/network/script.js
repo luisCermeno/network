@@ -210,11 +210,10 @@ function load_posts(filter){
 function listen_edit(){
     console.log('Running listen_edit()')
     document.querySelectorAll('.edit-btn').forEach(button => {
-        console.log(button)
         button.onclick = () => {
             //Get the id of the post
             post_id = button.dataset.post_id
-            console.log(`Button Edit for post ${post_id} pressed`)
+            console.log(`Edit button clicked for post ${post_id} pressed`)
             //Show the form section and hide the body section
             document.querySelector(`[data-post_id="${post_id}"].post-body-section`).style.display = 'none'
             document.querySelector(`[data-post_id="${post_id}"].post-edit_form-section`).style.display = 'block'
@@ -228,7 +227,7 @@ function listen_edit(){
 }
  
 function listen_edit_form(){
-    console.log('Running listen_edit_form')
+    console.log('Running listen_edit_form()')
     //Get the forms currently active
     document.querySelectorAll('.edit-form').forEach(form => {
         form.onsubmit = () => {
@@ -236,20 +235,24 @@ function listen_edit_form(){
             var post_id = form.dataset.post_id
             // Get the textarea value
             var new_body = document.querySelector(`[data-post_id="${post_id}"].edit-form textarea`).value
-            setting = JSON.stringify({
-                body: new_body
-                })
             // Submit PUT request to API
             fetch(`/edit/post/${post_id}`, {
                 method: 'PUT',
-                body: setting,
+                body: JSON.stringify({
+                        body: new_body
+                      }),
               })
-            .then(response => response.json())
-            .then(result => {
-                // Print result
-                console.log(result);
+            .then(response => {
+                //If editing is successful
+                if (response.status == 201){
+                console.log(`Post ${post_id} edited successfully`);
+                //Replace the body with new body
+                    document.querySelector(`[data-post_id="${post_id}"].post-body`).innerHTML = new_body
+                    //Show the body section and hide the form section
+                    document.querySelector(`[data-post_id="${post_id}"].post-body-section`).style.display = 'block'
+                    document.querySelector(`[data-post_id="${post_id}"].post-edit_form-section`).style.display = 'none'
+                }
             })
-            .then( () => {allposts_view()})
             //Stop form from submitting
             return false;
         }
