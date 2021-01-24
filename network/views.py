@@ -98,5 +98,24 @@ def get_posts(request, data):
     posts = posts.order_by("-timestamp").all()
     return JsonResponse([post.serialize() for post in posts], safe=False)
 
-def edit_post(request, id):
-    return
+@csrf_exempt
+@login_required
+def edit_post(request, post_id):
+    # Query for requested post
+    try:
+        post = Post.objects.get(pk=post_id)
+    except Post.DoesNotExist:
+        return JsonResponse({"error": "Post not found."}, status=404)
+
+    if request.method == "PUT":
+        data = json.loads(request.body)
+        if data.get("body") is not None:
+            post.body = data["body"]
+        post.save()
+        return JsonResponse({
+            "message": f'Post {post.id} edited successfully'
+        }, status=201)
+    else:
+        return JsonResponse({
+            "error": "PUT request required."
+        }, status=400)

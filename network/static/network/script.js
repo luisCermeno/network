@@ -234,13 +234,22 @@ function listen_edit_form(){
         form.onsubmit = () => {
             //Get the post id
             var post_id = form.dataset.post_id
-            //Submit PUT request to API
-            // fetch(`/edit/${post_id}`, {
-            //     method: 'PUT',
-            //     body: edit_form.firstChild(),
-            //   })
-            // .then(response => response.json())
-            console.log(`Edit form for post ${post_id} trying to submit`)
+            // Get the textarea value
+            var new_body = document.querySelector(`[data-post_id="${post_id}"].edit-form textarea`).value
+            setting = JSON.stringify({
+                body: new_body
+                })
+            // Submit PUT request to API
+            fetch(`/edit/post/${post_id}`, {
+                method: 'PUT',
+                body: setting,
+              })
+            .then(response => response.json())
+            .then(result => {
+                // Print result
+                console.log(result);
+            })
+            .then( () => {allposts_view()})
             //Stop form from submitting
             return false;
         }
