@@ -50,17 +50,23 @@
     font-size: 0.9rem;
     color: rgb(91, 112, 131)
 }
-svg{
+/* like button */
+.like-btn{
     height: 19.2px;
     width: 19.2px;
-    fill: white;
     stroke: red;
     stroke-width: 4px;
 }
-svg:hover{
-    fill: red;
+.like-btn:hover{
     cursor: pointer;
 }
+.like-btn[data-liked='false']{
+    fill: white;
+}
+.like-btn[data-liked='true']{
+    fill: red;
+}
+
 
 .btn-link{
     padding: 0px 0px;

@@ -124,12 +124,19 @@ function load_posts(filter){
             }
 
             //Create a likes span
-            likes = document.createElement("span")
-            likes.innerHTML = `${post.likes.length}`
-            // Clone the heart svg from index.html
-            heart = document.querySelector('.heart-button').cloneNode(true)
-            heart.style.display = 'inline'
-            heart.dataset.post_id = post.id
+            nLikes_div = document.createElement("span")
+            nLikes_div.className = 'post-nLikes'
+            nLikes_div.dataset.post_id = post.id
+            nLikes_div.innerHTML = `${post.likes.length}`
+            // Clone the like svg from index.html and style depending on liked status
+            like_btn = document.querySelector('.like-btn').cloneNode(true)
+            like_btn.style.display = 'inline'
+            like_btn.dataset.post_id = post.id
+            like_btn.dataset.liked = 'false'
+            if (post.likes.includes(request_user)){
+                like_btn.dataset.liked = 'true'
+            }
+            console.log(post.likes)
             //Create an anchor for user profile
             user_link = document.createElement("a")
             user_link.href = ''
@@ -142,7 +149,6 @@ function load_posts(filter){
             post_body = document.createElement("div")
             post_body.className = 'post-body'
             post_body.dataset.post_id = post.id
-
             //Create edit button
             edit_btn = document.createElement("button")
             edit_btn.className = 'edit-btn btn btn-link'
@@ -185,8 +191,8 @@ function load_posts(filter){
                     //Likes section
                     case 3:
                         col_post.children[j].className = 'post-likes-section'
-                        col_post.children[j].append(heart)
-                        col_post.children[j].append(likes)
+                        col_post.children[j].append(like_btn)
+                        col_post.children[j].append(nLikes_div)
                         break
                     //Comments section
                     case 4:
@@ -203,8 +209,56 @@ function load_posts(filter){
     .then( () => {
         console.log('Posts Loaded, HTML built')
         listen_edit()
+        listen_like()
     })
 }
+
+function listen_like(){
+    console.log('Running listen_like()')
+    document.querySelectorAll('.like-btn').forEach(button => {
+        button.onclick = () => {
+            //Get the id of the post
+            post_id = button.dataset.post_id
+            //Get the counter of likes
+            nLikes_div = document.querySelector(`[data-post_id="${post_id}"].post-nLikes`)
+            nLikes = parseInt(nLikes_div.innerHTML)
+            console.log(`Like button clicked for post ${post_id} pressed`)
+            //Like post
+            if (button.dataset.liked == 'false'){
+                // Submit PUT request to API
+                    // fetch(`/like/post/${post_id}`, {
+                    //     method: 'PUT',
+                    //     body: JSON.stringify({
+                    //             likes: request_user
+                    //         }),
+                    // })
+                    // .then(response => {
+                    //     //If liking is successful
+                    //     if (response.status == 201){
+                    //     console.log(`Post ${post_id} liked successfully`);
+                    //     //Increment like counter
+                    //     //Change like button dataser liked
+                    //     }
+                    // })
+                    //Increment counter
+                    nLikes++
+                    nLikes_div.innerHTML = nLikes.toString()
+                    //Change button style
+                    button.dataset.liked = 'true'
+            }
+            //Unlike post
+            else{
+                //Decrement counter
+                nLikes--
+                nLikes_div.innerHTML = nLikes.toString()
+                //Change button style
+                button.dataset.liked = 'false'
+            }
+
+        }
+    })  
+}
+
 
 //Edit post function
 function listen_edit(){
