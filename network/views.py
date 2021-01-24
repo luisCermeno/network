@@ -101,12 +101,11 @@ def get_posts(request, data):
 @csrf_exempt
 @login_required(login_url='/login')
 def get_profile(request, username):
-    # Get user data
-    # try:
+    try:
         user = User.objects.get(username=username)
         return JsonResponse([user.serialize()], safe=False)
-    # except:
-    #     return JsonResponse({"error": "User profile not found."}, status=404)
+    except:
+        return JsonResponse({"error": "User profile not found."}, status=404)
 
 @csrf_exempt
 @login_required

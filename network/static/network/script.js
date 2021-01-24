@@ -352,7 +352,14 @@ function profile_view(username){
     fetch(`get/profile/${username}`)
     .then(response => response.json())
     .then(data => {
-        console.log(data)
+        //Store the data in a variable called user
+        var user = data[0]
+        console.log(user)
+        //Build HTML
+        document.querySelector('#profile-name').innerHTML = `${user.first_name} ${user.last_name}`
+        document.querySelector('#profile-username').innerHTML = `@${user.username}`
+        document.querySelector('#profile-nFollowers').innerHTML = `<b>${user.followers.length} </b>  Followers`
+        document.querySelector('#profile-nFollowing').innerHTML = `<b> ${user.following.length}  </b> Following`
     })
     //Build HTML
     // document.querySelector('#profile-name').innerHTML
