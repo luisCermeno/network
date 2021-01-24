@@ -64,3 +64,6 @@ svg:hover{
 .btn-link{
     padding: 0px 0px;
 }
+.edit-btn{
+    display: block;
+}

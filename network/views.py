@@ -97,3 +97,6 @@ def get_posts(request, data):
     # Return emails in reverse chronologial order
     posts = posts.order_by("-timestamp").all()
     return JsonResponse([post.serialize() for post in posts], safe=False)
+
+def edit_post(request, id):
+    return

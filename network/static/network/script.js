@@ -126,7 +126,7 @@ function load_posts(filter){
             //Create a likes span
             likes = document.createElement("span")
             likes.innerHTML = `${post.likes.length}`
-            //Create a clone of the heart svg span
+            // Clone the heart svg from index.html
             heart = document.querySelector('.heart-button').cloneNode(true)
             heart.style.display = 'inline'
             heart.dataset.post_id = post.id
@@ -143,10 +143,18 @@ function load_posts(filter){
             edit_btn.className = 'edit-btn btn btn-link'
             edit_btn.innerHTML = 'Edit'
             edit_btn.dataset.post_id = post.id
+            //Clone the edit form from index.html (initialy display none)
+            edit_form = document.querySelector('.edit-form').cloneNode(true)
+            edit_form.className = 'edit-form'
+            edit_form.dataset.post_id = post.id
+            edit_form.style.display = 'block'
 
 
             //Get the colums created and fill them with data
             for (j = 0; j < col_post.children.length; j++) {
+                //Inject post id in the dataset
+                col_post.children[j].dataset.post_id = post.id
+                //Build html depending on the section
                 switch(parseInt(col_post.children[j].dataset.section)){
                     //User section
                     case 0:
@@ -157,16 +165,17 @@ function load_posts(filter){
                     //Body section
                     case 1:
                         col_post.children[j].className = 'post-body-section'
-                        col_post.children[j].dataset.post_id = post.id
                         col_post.children[j].innerHTML = post.body
-                        break
-                    //Edit section
-                    case 2:
-                        col_post.children[j].className = 'post-edit-section'
                         if (request_user == post.user){
                             col_post.children[j].append(edit_btn)
                         }
-                        
+                        break
+                    //Edit section
+                    case 2:
+                        col_post.children[j].className = 'post-edit_form-section'
+                        col_post.children[j].append(edit_form)
+                        col_post.children[j].style.display = 'none'
+                        break
                     //Likes section
                     case 3:
                         col_post.children[j].className = 'post-likes-section'
@@ -200,27 +209,44 @@ function listen_edit(){
             //Get the id of the post
             post_id = button.dataset.post_id
             console.log(`Button Edit for post ${post_id} pressed`)
-            //Get the edit form (initialy display none)
-            edit_form = document.querySelector('.edit-form').cloneNode(true)
-            edit_form.dataset.post_id = post_id
-            edit_form.style.display = 'block'
-            //Get the body section of that post and inject the form
-            body = document.querySelector(`[data-post_id="${post_id}"].post-body-section`)
-            body.innerHTML = edit_form.outerHTML
-            button.style.display = 'none'
-            console.log(edit_form)
-            //Listen for form submission
-            edit_form.onsubmit = () => {
-                console.log(`Edit form for post ${post_id} trying to submit`)
-                //Stop form from submitting
-                return false;
-            }
-
-
+            //Show the form section and hide the body section
+            document.querySelector(`[data-post_id="${post_id}"].post-body-section`).style.display = 'none'
+            document.querySelector(`[data-post_id="${post_id}"].post-edit_form-section`).style.display = 'block'
+            //Listen for edit forms
+            listen_edit_form()
         }
     })  
 }
-
+ 
+function listen_edit_form(){
+    console.log('Running listen_edit_form')
+    //Get the forms currently active
+    document.querySelectorAll('.edit-form').forEach(form => {
+        form.onsubmit = () => {
+            //Get the post id
+            var post_id = form.dataset.post_id
+            //Submit PUT request to API
+            // fetch(`/edit/${post_id}`, {
+            //     method: 'PUT',
+            //     body: edit_form.firstChild(),
+            //   })
+            // .then(response => response.json())
+            console.log(`Edit form for post ${post_id} trying to submit`)
+            //Stop form from submitting
+            return false;
+        }
+    })
+    //Get the cancel buttons currently active
+    document.querySelectorAll('.cancel-btn').forEach(button => {
+        button.onclick = () => {
+            //Get the post id
+            var post_id = button.parentElement.dataset.post_id
+            //Show the form section and hide the body section
+            document.querySelector(`[data-post_id="${post_id}"].post-body-section`).style.display = 'block'
+            document.querySelector(`[data-post_id="${post_id}"].post-edit_form-section`).style.display = 'none'
+        }  
+    })
+}
 
 //Following section
 function following_view(){
