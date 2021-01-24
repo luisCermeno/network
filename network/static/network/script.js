@@ -140,8 +140,9 @@ function load_posts(filter){
             console.log(post.likes)
             //Create an anchor for user profile
             user_link = document.createElement("a")
-            user_link.href = ''
             user_link.innerHTML = `@${post.user}`
+            user_link.className = 'profile-btn'
+            user_link.dataset.username = post.user
             //Create a timestamp span
             timestamp = document.createElement("span")
             timestamp.className = 'timestamp'
@@ -209,8 +210,22 @@ function load_posts(filter){
     //Once the HTML is built, listen for edit and likes buttons
     .then( () => {
         console.log('Posts Loaded, HTML built')
+        listen_profile()
         listen_edit()
         listen_like()
+    })
+}
+
+function listen_profile(){
+    console.log('Running listen_profile()')
+    document.querySelectorAll('.profile-btn').forEach(button => {
+        button.onclick = () => {
+            //Get the username of the user
+            username = button.dataset.username
+            console.log(`Profile button clicked for user ${username}`)
+            //Show the users profile
+            profile_view(username)
+        }
     })
 }
 
@@ -288,9 +303,10 @@ function listen_edit(){
             //Listen for edit forms
             listen_edit_form()
         }
-    })  
+    })
+    
 }
- 
+
 function listen_edit_form(){
     console.log('Running listen_edit_form()')
     //Get the forms currently active
@@ -361,12 +377,12 @@ function profile_view(username){
         document.querySelector('#profile-username').innerHTML = `@${user.username}`
         document.querySelector('#profile-nFollowers').innerHTML = `<b>${user.followers.length} </b>  Followers`
         document.querySelector('#profile-nFollowing').innerHTML = `<b> ${user.following.length}  </b> Following`
-        //Get the data from the request user
+        //Get the data from the request user in order to build follow functionality 
         fetch(`get/profile/${request_user}`).then(response => response.json()).then(data => {
             var request_user_data = data[0]
             console.log(request_user_data)
+            //If the user is in a foreign profile, start follow functionality
             if (request_user != user.username){
-                console.log('Follow button must be shown!')
                 document.querySelector('#follow-btn').style.display = 'block'
                 if (request_user_data.following.includes(user.username)){
                     document.querySelector('#follow-btn').innerHTML = 'Unfollow'
@@ -374,10 +390,14 @@ function profile_view(username){
                 else{
                     document.querySelector('#follow-btn').innerHTML = 'Follow'
                 }
+                //Listen here for follow button
             }
+            //
             else{
                 document.querySelector('#follow-btn').style.display = 'none'
             }
         })
+        //Load posts from the user
+
     })
 }

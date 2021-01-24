@@ -26,11 +26,16 @@
 }
 
 /* post styling */
-/* user */
-.post-usertime-section > a{
+/*username*/
+.profile-btn{
     color: black;
-   font-weight: 600;
+    font-weight: 600;
 }
+a.profile-btn:hover{
+    cursor: pointer;
+    font-weight: 700;
+}
+
 /* body */
 .post-body-section {
     font-family: Helvetica, sans-serif;
