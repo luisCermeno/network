@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const section = this.dataset.section;
             const section_name = this.innerHTML
             // Add the current state to the history
-            history.pushState({section: section}, "", `${section_name}`);
+            history.pushState({section: section}, "", ``);
             showSection(section);
         };
     });
@@ -29,7 +29,7 @@ function showSection(section){
     console.log(`Running showSection() with value of section = ${section}`)
     switch (parseInt(section)){
         case 1:
-            user_view()
+            profile_view(request_user)
             break
         case 2:
             allposts_view()
@@ -336,13 +336,25 @@ function listen_edit_form(){
 
 //Following section
 function following_view(){
+    //Show section and hide others
     document.querySelector('#posts-wrapper').style.display = 'none'
     document.querySelector('#following-wrapper').style.display = 'block'
     document.querySelector('#user-wrapper').style.display = 'none'
+    //Fetch data from API
+
 }
 //User section
-function user_view(){
+function profile_view(username){
+    console.log(`Running profile_view(${username})`)
     document.querySelector('#posts-wrapper').style.display = 'none'
     document.querySelector('#following-wrapper').style.display = 'none'
     document.querySelector('#user-wrapper').style.display = 'block'
+    fetch(`get/profile/${username}`)
+    .then(response => response.json())
+    .then(data => {
+        console.log(data)
+    })
+    //Build HTML
+    // document.querySelector('#profile-name').innerHTML
+
 }

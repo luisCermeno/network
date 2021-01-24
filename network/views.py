@@ -99,6 +99,15 @@ def get_posts(request, data):
     return JsonResponse([post.serialize() for post in posts], safe=False)
 
 @csrf_exempt
+@login_required(login_url='/login')
+def get_profile(request, username):
+    # Get user data
+    try:
+        user = User.objects.get(username = 'luiscermeno',)
+        return JsonResponse(user.serialize(), safe=False)
+    except:
+        return JsonResponse({"error": "User profile not found."}, status=404)
+@csrf_exempt
 @login_required
 def edit_post(request, post_id):
     # Query for requested post

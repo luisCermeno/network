@@ -19,7 +19,33 @@
     <!-- Following view -->
     <div class="col-6" id="following-wrapper">Implement Following here</div>
     <!-- User view -->
-    <div class="col-6" id="user-wrapper">Implement User here</div>
+    <div class="col-6" id="user-wrapper">
+        <h2 id="profile-name">First and Last Name</h2>
+        <h6 id="profile-username">@username</h6>
+        <div id="stats">
+            <span> <b>nFollowers</b> followers</span> <span><b>nFollowing</b> following</span>
+        </div>
+        <!-- {% if not request.user == profile_user%}
+            {% if profile_user not in following %}
+            <button id="Follow button" class="btn btn-primary"> Follow</button>
+            {% else %}
+            <button id="Unfollow button" class="btn btn-primary"> Unfollow</button>
+            {% endif%}
+        {% endif %} -->
+        <!-- Posts wrapper -->
+        <div class="col-6" id="posts-wrapper">
+            <div id="col_form"class="col col-12 border">
+                <!-- New Post form -->
+                <h5>New Post:</h5>
+                <form id="new-post-form" action="" method='POST'>
+                    <div class="form-group" id="new-post-form">
+                        <input required autocomplete="off" id="new-post-body"class="form-control" type="text" placeholder="What are you thinking today?">
+                    </div>
+                    <input class="btn btn-primary" id="submit" type="submit" value="Post">
+                </form>
+            </div>
+        </div>
+    </div>
     <div class="col-3">
     </div>
     <!-- like icon -->
