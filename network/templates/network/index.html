@@ -15,15 +15,6 @@
     <div class="col-3"></div>
     <!-- Posts view -->
     <div class="col-6" id="posts-wrapper">
-        <div id="col_form"class="col col-12 border">
-            <h5>New Post:</h5>
-            <form id="new-post-form" action="" method='POST'>
-                <div class="form-group" id="new-post-form">
-                    <input required autocomplete="off" id="new-post-body"class="form-control" type="text" placeholder="What are you thinking today?">
-                </div>
-                <input class="btn btn-primary" id="submit" type="submit" value="Post">
-            </form>
-        </div>
     </div>
     <!-- Following view -->
     <div class="col-6" id="following-wrapper">Implement Following here</div>
@@ -37,6 +28,16 @@
         Q 90,60 50,90
         Q 10,60 10,30 z"/>
     </svg>
+    <!-- new post form -->
+    <div style="display: none" id="col_form"class="col col-12 border">
+        <h5>New Post:</h5>
+        <form id="new-post-form" action="" method='POST'>
+            <div class="form-group" id="new-post-form">
+                <input required autocomplete="off" id="new-post-body"class="form-control" type="text" placeholder="What are you thinking today?">
+            </div>
+            <input class="btn btn-primary" id="submit" type="submit" value="Post">
+        </form>
+    </div>
     <!-- edit form -->
     <form style="display: none" action="" method='POST' class="edit-form">
         <div class="form-group" id="new-post-form">

@@ -111,6 +111,14 @@ function load_posts(filter){
         console.log(posts)
         //Clear wrapper
         document.querySelector('#posts-wrapper').innerHTML = ''
+        //Append form if filter = 'all_posts'
+        if (filter == 'all_posts'){
+            //Clone the edit form from index.html (initialy display none)
+            newpost_form = document.querySelector('#col_form').cloneNode(true)
+            newpost_form.style.display = 'block'
+            //Append
+            document.querySelector('#posts-wrapper').append(newpost_form)
+        }
         // Traverse the json object gotten from the response
         for (i = 0; i < posts.length; i++) {
             //Store the object in a new variable
