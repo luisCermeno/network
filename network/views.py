@@ -146,3 +146,31 @@ def edit_post(request, post_id):
         return JsonResponse({
             "error": "PUT request required."
         }, status=400)
+
+@csrf_exempt
+@login_required
+def edit_profile(request, username):
+    # Query for requested post
+    try:
+        user = request.user
+        target_user = User.objects.get(username=username)
+    except User.DoesNotExist:
+        return JsonResponse({"error": "User not found."}, status=404)
+
+    if request.method == "PUT":
+        if data.get("action") == 'follow':
+            user.following.add(target_user)
+            user.save()
+            return JsonResponse({
+                "message": f'User {target_user} followed successfully by ${user}'
+            }, status=201)
+        elif data.get("action") == 'unfollow':
+            user.following.remove(target_user)
+            user.save()
+            return JsonResponse({
+                "message": f'User {target_user} unfollowed successfully by ${user}'
+            }, status=201)
+    else:
+        return JsonResponse({
+            "error": "PUT request required."
+        }, status=400)

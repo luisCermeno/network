@@ -395,9 +395,11 @@ function profile_view(username){
                 document.querySelector('#follow-btn').style.display = 'inline'
                 document.querySelector('#follow-btn').dataset.username = user.username
                 if (request_user_data.following.includes(user.username)){
+                    document.querySelector('#follow-btn').dataset.followed = 'true'
                     document.querySelector('#follow-btn').innerHTML = 'Unfollow'
                 }
                 else{
+                    document.querySelector('#follow-btn').dataset.followed = 'false'
                     document.querySelector('#follow-btn').innerHTML = 'Follow'
                 }
                 //Listen here for follow button
@@ -418,50 +420,50 @@ function listen_follow(){
     console.log('Running listen_follow()')
     document.querySelector('#follow-btn').onclick = function() {
         //Get the user to follow
-        user = this.dataset.username
-        console.log(`Follow button clicked for user ${user}`)
+        username = this.dataset.username
+        console.log(`Follow button clicked for user ${username}`)
         //Get the counter of followers
         nFollowers_span = document.querySelector('#profile-nFollowers')
         nFollowers = parseInt(nFollowers_span.innerHTML)
-        //Like post
-        if (button.dataset.liked == 'false'){
+        //Follow user
+        if (button.dataset.followed == 'false'){
             // Submit PUT request to API
-            fetch(`/edit/post/${post_id}`, {
+            fetch(`/edit/profile/${username}`, {
                 method: 'PUT',
                 body: JSON.stringify({
-                        action: 'like'
+                        action: 'follow'
                     }),
             })
             .then(response => {
-                //If liking is successful
+                //If following is successful
                 if (response.status == 201){
-                console.log(`Post ${post_id} liked successfully`);
+                console.log(`User ${username} followed successfully`);
                 //Increment counter
-                nLikes++
-                nLikes_div.innerHTML = nLikes.toString()
-                //Change button style
-                button.dataset.liked = 'true'
+                nFollowers++
+                nFollowers_span.innerHTML = nFollowers.toString()
+                //Change button dataset
+                this.dataset.followed = 'true'
                 }
             })
         }
         //Unlike post
         else{
             // Submit PUT request to API
-            fetch(`/edit/post/${post_id}`, {
+            fetch(`/edit/profile/${username}`, {
                 method: 'PUT',
                 body: JSON.stringify({
-                        action: 'unlike'
+                        action: 'unfollow'
                     }),
             })
             .then(response => {
-                //If liking is successful
+                //If unfollowing is successful
                 if (response.status == 201){
-                console.log(`Post ${post_id} unliked successfully`);
-                //Increment counter
-                nLikes--
-                nLikes_div.innerHTML = nLikes.toString()
-                //Change button style
-                button.dataset.liked = 'false'
+                console.log(`User ${username} unfollowed successfully`);
+                //Decrement counter
+                nFollowers--
+                nFollowers_span.innerHTML = nLikes.toString()
+                //Change button dataset
+                this.dataset.followed = 'false'
                 }
             })
         }
