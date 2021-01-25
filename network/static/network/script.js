@@ -45,9 +45,8 @@ function allposts_view(){
     document.querySelector('#posts-wrapper').style.display = 'block'
     document.querySelector('#following-wrapper').style.display = 'none'
     document.querySelector('#user-wrapper').style.display = 'none'
-    document.querySelector('#col_form').style.display = 'block'
     //Clear wrapper in case post have already been apended
-    document.querySelector('#posts-wrapper').innerHTML = document.querySelector('#col_form').outerHTML
+    // document.querySelector('#posts-wrapper').innerHTML = document.querySelector('#col_form').outerHTML
     //Listen for new post submission
     listen_new_post()
     //Request posts rom database
@@ -101,6 +100,7 @@ function listen_new_post(){
 //Load posts function
 function load_posts(filter){
     console.log(`Running load_posts(${filter})`)
+    
     //Fetch from API
     fetch(`/get/posts/${filter}`)
     //Then, get the response and convert it to jason
@@ -109,6 +109,8 @@ function load_posts(filter){
     .then(posts => {
         //Log the JSON response to console
         console.log(posts)
+        //Clear wrapper
+        document.querySelector('#posts-wrapper').innerHTML = ''
         // Traverse the json object gotten from the response
         for (i = 0; i < posts.length; i++) {
             //Store the object in a new variable
@@ -400,7 +402,6 @@ function profile_view(username){
     })
     //Load post but hide the form
     document.querySelector('#posts-wrapper').style.display = 'block'
-    document.querySelector('#col_form').style.display = 'none'
     load_posts(username)
     
 }
