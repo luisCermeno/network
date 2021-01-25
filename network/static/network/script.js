@@ -393,7 +393,7 @@ function profile_view(username){
             console.log(request_user_data)
             //If the user is in a foreign profile, start follow functionality
             if (request_user != user.username){
-                document.querySelector('#follow-btn').style.display = 'block'
+                document.querySelector('#follow-btn').style.display = 'inline'
                 if (request_user_data.following.includes(user.username)){
                     document.querySelector('#follow-btn').innerHTML = 'Unfollow'
                 }

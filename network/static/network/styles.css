@@ -81,3 +81,8 @@ a.profile-btn:hover{
     display: block;
     color: rgb(91, 112, 131);
 }
+
+/* User view */
+#user-wrapper{
+    width: 20%;
+}
