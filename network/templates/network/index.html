@@ -3,6 +3,15 @@
 {% block body %}
 <!-- New Post form -->
 <div class="row">
+    <!-- User view -->
+    <div class="col-12" id="user-wrapper">
+        <h2 id="profile-name">First and Last Name</h2>
+        <h6 id="profile-username">@username</h6>
+        <div id="profile-stats">
+            <span id="profile-nFollowers"></span><span id="profile-nFollowing"></span>
+        </div>
+        <button style="display: none" id="follow-btn" class="btn btn-primary"></button>
+    </div>
     <div class="col-3"></div>
     <!-- Posts view -->
     <div class="col-6" id="posts-wrapper">
@@ -18,17 +27,6 @@
     </div>
     <!-- Following view -->
     <div class="col-6" id="following-wrapper">Implement Following here</div>
-    <!-- User view -->
-    <div class="col-6" id="user-wrapper">
-        <h2 id="profile-name">First and Last Name</h2>
-        <h6 id="profile-username">@username</h6>
-        <div id="profile-stats">
-            <span id="profile-nFollowers"></span><span id="profile-nFollowing"></span>
-        </div>
-        <button style="display: none" id="follow-btn" class="btn btn-primary"></button>
-        <!-- Posts wrapper -->
-        <div class="col-6" id="posts-wrapper"> </div>
-    </div>
     <div class="col-3">
     </div>
     <!-- like icon -->

@@ -45,6 +45,7 @@ function allposts_view(){
     document.querySelector('#posts-wrapper').style.display = 'block'
     document.querySelector('#following-wrapper').style.display = 'none'
     document.querySelector('#user-wrapper').style.display = 'none'
+    document.querySelector('#col_form').style.display = 'block'
     //Clear wrapper in case post have already been apended
     document.querySelector('#posts-wrapper').innerHTML = document.querySelector('#col_form').outerHTML
     //Listen for new post submission
@@ -99,7 +100,7 @@ function listen_new_post(){
 
 //Load posts function
 function load_posts(filter){
-    console.log('Running load_posts()')
+    console.log(`Running load_posts(${filter})`)
     //Fetch from API
     fetch(`/get/posts/${filter}`)
     //Then, get the response and convert it to jason
@@ -137,7 +138,6 @@ function load_posts(filter){
             if (post.likes.includes(request_user)){
                 like_btn.dataset.liked = 'true'
             }
-            console.log(post.likes)
             //Create an anchor for user profile
             user_link = document.createElement("a")
             user_link.innerHTML = `@${post.user}`
@@ -392,12 +392,15 @@ function profile_view(username){
                 }
                 //Listen here for follow button
             }
-            //
             else{
                 document.querySelector('#follow-btn').style.display = 'none'
             }
         })
         //Load posts from the user
-
     })
+    //Load post but hide the form
+    document.querySelector('#posts-wrapper').style.display = 'block'
+    document.querySelector('#col_form').style.display = 'none'
+    load_posts(username)
+    
 }

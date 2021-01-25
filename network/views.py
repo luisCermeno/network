@@ -89,10 +89,12 @@ def get_posts(request, data):
     # Filter emails returned based on mailbox
     if data == "all_posts":
         posts = Post.objects.all()
-    elif data == "own_posts":
-        posts = Post.objects.filter(user=request.user)
     else:
-        return JsonResponse({"error": "Invalid filter for posts."}, status=400)
+        try:
+            user = User.objects.get(username = data)
+            posts = Post.objects.filter(user=user)
+        except:
+            return JsonResponse({"error": "Invalid filter for posts."}, status=400)
 
     # Return emails in reverse chronologial order
     posts = posts.order_by("-timestamp").all()
