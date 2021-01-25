@@ -292,7 +292,7 @@ function listen_like(){
                 })
             }
         }
-    })  
+    })
 }
 
 
@@ -314,7 +314,6 @@ function listen_edit(){
             listen_edit_form()
         }
     })
-    
 }
 
 function listen_edit_form(){
@@ -385,8 +384,8 @@ function profile_view(username){
         //Build HTML
         document.querySelector('#profile-name').innerHTML = `${user.first_name} ${user.last_name}`
         document.querySelector('#profile-username').innerHTML = `@${user.username}`
-        document.querySelector('#profile-nFollowers').innerHTML = `<b>${user.followers.length} </b>  Followers`
-        document.querySelector('#profile-nFollowing').innerHTML = `<b> ${user.following.length}  </b> Following`
+        document.querySelector('#profile-nFollowers').innerHTML = `${user.followers.length}`
+        document.querySelector('#profile-nFollowing').innerHTML = `${user.following.length}`
         //Get the data from the request user in order to build follow functionality 
         fetch(`get/profile/${request_user}`).then(response => response.json()).then(data => {
             var request_user_data = data[0]
@@ -394,6 +393,7 @@ function profile_view(username){
             //If the user is in a foreign profile, start follow functionality
             if (request_user != user.username){
                 document.querySelector('#follow-btn').style.display = 'inline'
+                document.querySelector('#follow-btn').dataset.username = user.username
                 if (request_user_data.following.includes(user.username)){
                     document.querySelector('#follow-btn').innerHTML = 'Unfollow'
                 }
@@ -401,15 +401,69 @@ function profile_view(username){
                     document.querySelector('#follow-btn').innerHTML = 'Follow'
                 }
                 //Listen here for follow button
+                listen_follow()
             }
             else{
                 document.querySelector('#follow-btn').style.display = 'none'
             }
         })
-        //Load posts from the user
     })
-    //Load post but hide the form
+    //Load post from user
     document.querySelector('#posts-wrapper').style.display = 'block'
     load_posts(username)
     
+}
+
+function listen_follow(){
+    console.log('Running listen_follow()')
+    document.querySelector('#follow-btn').onclick = function() {
+        //Get the user to follow
+        user = this.dataset.username
+        console.log(`Follow button clicked for user ${user}`)
+        //Get the counter of followers
+        nFollowers_span = document.querySelector('#profile-nFollowers')
+        nFollowers = parseInt(nFollowers_span.innerHTML)
+        //Like post
+        if (button.dataset.liked == 'false'){
+            // Submit PUT request to API
+            fetch(`/edit/post/${post_id}`, {
+                method: 'PUT',
+                body: JSON.stringify({
+                        action: 'like'
+                    }),
+            })
+            .then(response => {
+                //If liking is successful
+                if (response.status == 201){
+                console.log(`Post ${post_id} liked successfully`);
+                //Increment counter
+                nLikes++
+                nLikes_div.innerHTML = nLikes.toString()
+                //Change button style
+                button.dataset.liked = 'true'
+                }
+            })
+        }
+        //Unlike post
+        else{
+            // Submit PUT request to API
+            fetch(`/edit/post/${post_id}`, {
+                method: 'PUT',
+                body: JSON.stringify({
+                        action: 'unlike'
+                    }),
+            })
+            .then(response => {
+                //If liking is successful
+                if (response.status == 201){
+                console.log(`Post ${post_id} unliked successfully`);
+                //Increment counter
+                nLikes--
+                nLikes_div.innerHTML = nLikes.toString()
+                //Change button style
+                button.dataset.liked = 'false'
+                }
+            })
+        }
+    }
 }
