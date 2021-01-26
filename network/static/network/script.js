@@ -426,7 +426,7 @@ function listen_follow(){
         nFollowers_span = document.querySelector('#profile-nFollowers')
         nFollowers = parseInt(nFollowers_span.innerHTML)
         //Follow user
-        if (button.dataset.followed == 'false'){
+        if (this.dataset.followed == 'false'){
             // Submit PUT request to API
             fetch(`/edit/profile/${username}`, {
                 method: 'PUT',
@@ -443,6 +443,7 @@ function listen_follow(){
                 nFollowers_span.innerHTML = nFollowers.toString()
                 //Change button dataset
                 this.dataset.followed = 'true'
+                this.innerHTML = 'Unfollow'
                 }
             })
         }
@@ -461,9 +462,10 @@ function listen_follow(){
                 console.log(`User ${username} unfollowed successfully`);
                 //Decrement counter
                 nFollowers--
-                nFollowers_span.innerHTML = nLikes.toString()
+                nFollowers_span.innerHTML = nFollowers.toString()
                 //Change button dataset
                 this.dataset.followed = 'false'
+                this.innerHTML = 'Follow'
                 }
             })
         }

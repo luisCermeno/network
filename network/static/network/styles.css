@@ -86,3 +86,9 @@ a.profile-btn:hover{
 #user-wrapper{
     width: 20%;
 }
+#profile-stats{
+    padding-bottom: 10px;
+}
+.counter{
+    font-weight: 600;
+}

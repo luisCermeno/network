@@ -158,6 +158,7 @@ def edit_profile(request, username):
         return JsonResponse({"error": "User not found."}, status=404)
 
     if request.method == "PUT":
+        data = json.loads(request.body)
         if data.get("action") == 'follow':
             user.following.add(target_user)
             user.save()
