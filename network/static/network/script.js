@@ -42,10 +42,10 @@ function showSection(section){
 //All posts section
 function allposts_view(){
     console.log('Running allposts_view()')
+    document.querySelector('#new-post-wrapper').style.display = 'block'
     document.querySelector('#posts-wrapper').style.display = 'block'
     document.querySelector('#user-wrapper').style.display = 'none'
-    //Clear wrapper in case post have already been apended
-    // document.querySelector('#posts-wrapper').innerHTML = document.querySelector('#col_form').outerHTML
+    
     //Request posts from database
     load_posts('all_posts')
     //Listen for new post submission
@@ -99,6 +99,8 @@ function listen_new_post(){
 //Load posts function
 function load_posts(filter){
     console.log(`Running load_posts(${filter})`)
+    //Clear wrapper
+    document.querySelector('#posts-wrapper').innerHTML = ''
     
     //Fetch from API
     fetch(`/get/posts/${filter}`)
@@ -108,16 +110,6 @@ function load_posts(filter){
     .then(posts => {
         //Log the JSON response to console
         console.log(posts)
-        //Clear wrapper
-        document.querySelector('#posts-wrapper').innerHTML = ''
-        //Append form if filter = 'all_posts'
-        if (filter == 'all_posts'){
-            //Clone the edit form from index.html (initialy display none)
-            newpost_form = document.querySelector('#col_form').cloneNode(true)
-            newpost_form.style.display = 'block'
-            //Append
-            document.querySelector('#posts-wrapper').append(newpost_form)
-        }
         // Traverse the json object gotten from the response
         for (i = 0; i < posts.length; i++) {
             //Store the object in a new variable
@@ -364,6 +356,7 @@ function following_view(){
     //Show section and hide others
     document.querySelector('#posts-wrapper').style.display = 'block'
     document.querySelector('#user-wrapper').style.display = 'none'
+    document.querySelector('#new-post-wrapper').style.display = 'none'
     //Fetch data from API
     load_posts('following')
 }
@@ -373,6 +366,7 @@ function profile_view(username){
     console.log(`Running profile_view(${username})`)
     document.querySelector('#posts-wrapper').style.display = 'none'
     document.querySelector('#user-wrapper').style.display = 'block'
+    document.querySelector('#new-post-wrapper').style.display = 'none'
     fetch(`get/profile/${username}`)
     .then(response => response.json())
     .then(data => {
