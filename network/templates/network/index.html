@@ -1,10 +1,9 @@
 {% extends "network/layout.html" %}
 
 {% block body %}
-<!-- New Post form -->
 <div class="row">
-    <!-- User view -->
-    <div class="col-12 text-center" id="user-wrapper">
+    <!-- User profile wrapper -->
+    <div id="user-wrapper" class="col-12 text-center">
         <h2 id="profile-name">First and Last Name</h2>
         <h6 id="profile-username">@username</h6>
         <div id="profile-stats">
@@ -14,36 +13,46 @@
         <button style="display: none" id="follow-btn" class="btn btn-primary"></button>
     </div>
 
-    <div id="new-post-wrapper"class="col col-12 border">
-        <h5>New Post:</h5>
-        <form id="new-post-form" action="" method='POST'>
+    <!-- New post form wrapper -->
+    <div id="all-posts-wrapper"class="col-12 text-center">
+        <h2>All Posts:</h2>
+        <div class="col col-md-6 border mx-auto text-left" id="new-post-wrapper">
+            <h5>New Post:</h5>
+            <form id="new-post-form" action="" method='POST'>
+                <div class="form-group" id="new-post-form">
+                    <input required autocomplete="off" id="new-post-body"class="form-control" type="text" placeholder="What are you thinking today?">
+                </div>
+                <input class="btn btn-primary" id="submit" type="submit" value="Post">
+            </form>
+        </div>
+    </div>
+
+    <!-- Following wrapper -->
+    <div id="following-wrapper"class="col-12 text-center">
+        <h2>Following:</h2>
+    </div>
+
+    <!-- Posts wrapper -->
+    <div id="posts-wrapper" class="col-12" ></div>
+
+    <!-- Templates -->
+    <div style="display: none" class="templates">
+        <!-- like icon -->
+        <svg viewBox="0 0 100 100" class="like-btn">
+            <path d="M 10,30
+            A 20,20 0,0,1 50,30
+            A 20,20 0,0,1 90,30
+            Q 90,60 50,90
+            Q 10,60 10,30 z"/>
+        </svg>
+        <!-- edit form -->
+        <form action="" method='POST' class="edit-form">
             <div class="form-group" id="new-post-form">
-                <input required autocomplete="off" id="new-post-body"class="form-control" type="text" placeholder="What are you thinking today?">
+                <textarea class="form-control" name="body" rows="4" cols="50"></textarea>
             </div>
-            <input class="btn btn-primary" id="submit" type="submit" value="Post">
+            <input class="btn btn-link"  type="submit" value="Save">
+            <input class="btn btn-link cancel-btn"  type="button" value="Cancel">
         </form>
     </div>
-
-    <div class="col-3"></div>
-    <!-- Posts view -->
-    <div class="col-6" id="posts-wrapper">
-    </div>
-    <!-- like icon -->
-    <svg style="display: none" viewBox="0 0 100 100" class="like-btn">
-        <path d="M 10,30
-        A 20,20 0,0,1 50,30
-        A 20,20 0,0,1 90,30
-        Q 90,60 50,90
-        Q 10,60 10,30 z"/>
-    </svg>
-
-    <!-- edit form -->
-    <form style="display: none" action="" method='POST' class="edit-form">
-        <div class="form-group" id="new-post-form">
-            <textarea class="form-control" name="body" rows="4" cols="50"></textarea>
-        </div>
-        <input class="btn btn-link"  type="submit" value="Save">
-        <input class="btn btn-link cancel-btn"  type="button" value="Cancel">
-    </form>
 </div>
 {% endblock %}

@@ -42,9 +42,10 @@ function showSection(section){
 //All posts section
 function allposts_view(){
     console.log('Running allposts_view()')
-    document.querySelector('#new-post-wrapper').style.display = 'block'
+    document.querySelector('#all-posts-wrapper').style.display = 'block'
     document.querySelector('#posts-wrapper').style.display = 'block'
     document.querySelector('#user-wrapper').style.display = 'none'
+    document.querySelector('#following-wrapper').style.display = 'none'
     
     //Request posts from database
     load_posts('all_posts')
@@ -116,7 +117,7 @@ function load_posts(filter){
             let post = posts[i]
             //For each post create a col div
             const col_post = document.createElement('div');
-            col_post.className = 'col col-12 border'
+            col_post.className = 'col col-md-6 border mx-auto'
             col_post.dataset.post_id = post.id;
             //Create colums inside the fiv
             for(j = 0; j < 5; j++){
@@ -206,7 +207,7 @@ function load_posts(filter){
             }
             //Append post col to the posts wrapper
             document.querySelector('#posts-wrapper').append(col_post);  
-        }    
+        }
     })
     //Once the HTML is built, listen for edit and likes buttons
     .then( () => {
@@ -356,7 +357,8 @@ function following_view(){
     //Show section and hide others
     document.querySelector('#posts-wrapper').style.display = 'block'
     document.querySelector('#user-wrapper').style.display = 'none'
-    document.querySelector('#new-post-wrapper').style.display = 'none'
+    document.querySelector('#all-posts-wrapper').style.display = 'none'
+    document.querySelector('#following-wrapper').style.display = 'block'
     //Fetch data from API
     load_posts('following')
 }
@@ -366,7 +368,8 @@ function profile_view(username){
     console.log(`Running profile_view(${username})`)
     document.querySelector('#posts-wrapper').style.display = 'none'
     document.querySelector('#user-wrapper').style.display = 'block'
-    document.querySelector('#new-post-wrapper').style.display = 'none'
+    document.querySelector('#all-posts-wrapper').style.display = 'none'
+    document.querySelector('#following-wrapper').style.display = 'none'
     fetch(`get/profile/${username}`)
     .then(response => response.json())
     .then(data => {
