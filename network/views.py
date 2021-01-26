@@ -92,12 +92,14 @@ def get_posts(request, data):
     elif data == "following":
         #Get the users who the request.user follows
         following = request.user.following.all()
-        #Create an empty set
-        posts = set()
+        #Create an empty list
+        posts = []
         for user in following:
             query = Post.objects.filter(user = user)
             for post in query:
-                posts.add(post)
+                posts += [post]
+            posts.sort(key=lambda x: x.timestamp, reverse=True)
+        return JsonResponse([post.serialize() for post in posts], safe=False)
     else:
         try:
             user = User.objects.get(username = data)
@@ -105,7 +107,7 @@ def get_posts(request, data):
         except:
             return JsonResponse({"error": "Invalid filter for posts."}, status=400)
 
-    # Return emails in reverse chronologial order
+    # Return posts in reverse chronologial order
     posts = posts.order_by("-timestamp").all()
     return JsonResponse([post.serialize() for post in posts], safe=False)
 
