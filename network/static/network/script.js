@@ -43,14 +43,13 @@ function showSection(section){
 function allposts_view(){
     console.log('Running allposts_view()')
     document.querySelector('#posts-wrapper').style.display = 'block'
-    document.querySelector('#following-wrapper').style.display = 'none'
     document.querySelector('#user-wrapper').style.display = 'none'
     //Clear wrapper in case post have already been apended
     // document.querySelector('#posts-wrapper').innerHTML = document.querySelector('#col_form').outerHTML
+    //Request posts from database
+    load_posts('all_posts')
     //Listen for new post submission
     listen_new_post()
-    //Request posts rom database
-    load_posts('all_posts')
 }
 
 function listen_new_post(){
@@ -363,17 +362,16 @@ function listen_edit_form(){
 //Following section
 function following_view(){
     //Show section and hide others
-    document.querySelector('#posts-wrapper').style.display = 'none'
-    document.querySelector('#following-wrapper').style.display = 'block'
+    document.querySelector('#posts-wrapper').style.display = 'block'
     document.querySelector('#user-wrapper').style.display = 'none'
     //Fetch data from API
-
+    load_posts('following')
 }
+
 //User section
 function profile_view(username){
     console.log(`Running profile_view(${username})`)
     document.querySelector('#posts-wrapper').style.display = 'none'
-    document.querySelector('#following-wrapper').style.display = 'none'
     document.querySelector('#user-wrapper').style.display = 'block'
     fetch(`get/profile/${username}`)
     .then(response => response.json())
