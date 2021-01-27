@@ -15,21 +15,23 @@
 
     <!-- New post form wrapper -->
     <div id="all-posts-wrapper"class="col-12 text-center">
-        <h2>All Posts:</h2>
+        <h2 class="mb-4" id="welcome-msg"> Welcome, {{ request.user.first_name }}!</h2>
         <div class="col col-md-6 border mx-auto text-left" id="new-post-wrapper">
-            <h5>New Post:</h5>
+            <div class="post-usertime-section mb-2" data-section="0" data-post_id="79">
+                <a class="profile-btn" data-username="{{request.user.username}}">@{{request.user.username}}</a>
+            </div>
             <form id="new-post-form" action="" method='POST'>
                 <div class="form-group" id="new-post-form">
-                    <input required autocomplete="off" id="new-post-body"class="form-control" type="text" placeholder="What are you thinking today?">
+                    <textarea required autocomplete="off" id="new-post-body"class="form-control" type="text" placeholder="What are you thinking today? 🤔"></textarea>
                 </div>
-                <input class="btn btn-primary" id="submit" type="submit" value="Post">
+                    <input class="btn btn-primary btn-block" id="submit" type="submit" value="Post">
             </form>
         </div>
     </div>
 
     <!-- Following wrapper -->
     <div id="following-wrapper"class="col-12 text-center">
-        <h2>Following:</h2>
+        <h2>People you are following think...</h2>
     </div>
 
     <!-- Posts wrapper -->

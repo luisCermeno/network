@@ -28,6 +28,12 @@ document.addEventListener('DOMContentLoaded', function() {
 //Toogle between sections
 function showSection(section){
     console.log(`Running showSection() with value of section = ${section}`)
+    //Style the navbar
+    document.querySelectorAll('.section-btn').forEach(a => {
+        a.className = 'nav-link section-btn'
+    })
+    document.querySelector(`[data-section="${section}"].section-btn`).className = 'nav-link section-btn active'
+    //Load respective function
     switch (parseInt(section)){
         case 1:
             profile_view(request_user)
@@ -46,6 +52,8 @@ function allposts_view(){
     document.querySelector('#posts-wrapper').style.display = 'block'
     document.querySelector('#user-wrapper').style.display = 'none'
     document.querySelector('#following-wrapper').style.display = 'none'
+    //Style the navbar
+
     
     //Request posts from database
     load_posts('all_posts',1)
@@ -115,101 +123,106 @@ function load_posts(filter,page){
         //Store the last object in a variable that will contain page data
         page = data[data.length - 1]
         // Traverse the json object gotten from the response
-        for (i = 0; i < data.length - 1; i++) {
-            //Store the object in a new variable
-            let post = data[i]
-            //For each post create a col div
-            const col_post = document.createElement('div');
-            col_post.className = 'col col-md-6 border mx-auto'
-            col_post.dataset.post_id = post.id;
-            //Create colums inside the fiv
-            for(j = 0; j < 5; j++){
-                section = document.createElement('div')
-                section.className = 'post-section'
-                section.dataset.section = j
-                col_post.append(section)
-            }
-
-            //Create a likes span
-            nLikes_div = document.createElement("span")
-            nLikes_div.className = 'post-nLikes'
-            nLikes_div.dataset.post_id = post.id
-            nLikes_div.innerHTML = `${post.likes.length}`
-            // Clone the like svg from index.html and style depending on liked status
-            like_btn = document.querySelector('.like-btn').cloneNode(true)
-            like_btn.style.display = 'inline'
-            like_btn.dataset.post_id = post.id
-            like_btn.dataset.liked = 'false'
-            if (post.likes.includes(request_user)){
-                like_btn.dataset.liked = 'true'
-            }
-            //Create an anchor for user profile
-            user_link = document.createElement("a")
-            user_link.innerHTML = `@${post.user}`
-            user_link.className = 'profile-btn'
-            user_link.dataset.username = post.user
-            //Create a timestamp span
-            timestamp = document.createElement("span")
-            timestamp.className = 'timestamp'
-            timestamp.innerHTML = ` &middot ${post.timestamp}`
-            //Create a div for the body
-            post_body = document.createElement("div")
-            post_body.className = 'post-body'
-            post_body.dataset.post_id = post.id
-            //Create edit button
-            edit_btn = document.createElement("button")
-            edit_btn.className = 'edit-btn btn btn-link'
-            edit_btn.innerHTML = 'Edit'
-            edit_btn.dataset.post_id = post.id
-            //Clone the edit form from index.html (initialy display none)
-            edit_form = document.querySelector('.edit-form').cloneNode(true)
-            edit_form.className = 'edit-form'
-            edit_form.dataset.post_id = post.id
-            edit_form.style.display = 'block'
-
-
-            //Get the colums created and fill them with data
-            for (j = 0; j < col_post.children.length; j++) {
-                //Inject post id in the dataset
-                col_post.children[j].dataset.post_id = post.id
-                //Build html depending on the section
-                switch(parseInt(col_post.children[j].dataset.section)){
-                    //User section
-                    case 0:
-                        col_post.children[j].className = 'post-usertime-section'
-                        col_post.children[j].append(user_link)
-                        col_post.children[j].append(timestamp)
-                        break
-                    //Body section
-                    case 1:
-                        col_post.children[j].className = 'post-body-section'
-                        post_body.innerHTML = post.body
-                        col_post.children[j].append(post_body)
-                        if (request_user == post.user){
-                            col_post.children[j].append(edit_btn)
-                        }
-                        break
-                    //Edit section
-                    case 2:
-                        col_post.children[j].className = 'post-edit_form-section'
-                        col_post.children[j].append(edit_form)
-                        col_post.children[j].style.display = 'none'
-                        break
-                    //Likes section
-                    case 3:
-                        col_post.children[j].className = 'post-likes-section'
-                        col_post.children[j].append(like_btn)
-                        col_post.children[j].append(nLikes_div)
-                        break
-                    //Comments section
-                    case 4:
-                        col_post.children[j].className = 'post-comments-section'
-                        col_post.children[j].innerHTML = 'Comments:'
-                        break
+        if (data.length > 1){
+            for (i = 0; i < data.length - 1; i++) {
+                //Store the object in a new variable
+                let post = data[i]
+                //For each post create a col div
+                const col_post = document.createElement('div');
+                col_post.className = 'col col-md-6 border mx-auto'
+                col_post.dataset.post_id = post.id;
+                //Create colums inside the fiv
+                for(j = 0; j < 5; j++){
+                    section = document.createElement('div')
+                    section.className = 'post-section'
+                    section.dataset.section = j
+                    col_post.append(section)
                 }
+    
+                //Create a likes span
+                nLikes_div = document.createElement("span")
+                nLikes_div.className = 'post-nLikes'
+                nLikes_div.dataset.post_id = post.id
+                nLikes_div.innerHTML = `${post.likes.length}`
+                // Clone the like svg from index.html and style depending on liked status
+                like_btn = document.querySelector('.like-btn').cloneNode(true)
+                like_btn.style.display = 'inline'
+                like_btn.dataset.post_id = post.id
+                like_btn.dataset.liked = 'false'
+                if (post.likes.includes(request_user)){
+                    like_btn.dataset.liked = 'true'
+                }
+                //Create an anchor for user profile
+                user_link = document.createElement("a")
+                user_link.innerHTML = `@${post.user}`
+                user_link.className = 'profile-btn'
+                user_link.dataset.username = post.user
+                //Create a timestamp span
+                timestamp = document.createElement("span")
+                timestamp.className = 'timestamp'
+                timestamp.innerHTML = ` &middot ${post.timestamp}`
+                //Create a div for the body
+                post_body = document.createElement("div")
+                post_body.className = 'post-body'
+                post_body.dataset.post_id = post.id
+                //Create edit button
+                edit_btn = document.createElement("button")
+                edit_btn.className = 'edit-btn btn btn-link'
+                edit_btn.innerHTML = 'Edit'
+                edit_btn.dataset.post_id = post.id
+                //Clone the edit form from index.html (initialy display none)
+                edit_form = document.querySelector('.edit-form').cloneNode(true)
+                edit_form.className = 'edit-form'
+                edit_form.dataset.post_id = post.id
+                edit_form.style.display = 'block'
+    
+    
+                //Get the colums created and fill them with data
+                for (j = 0; j < col_post.children.length; j++) {
+                    //Inject post id in the dataset
+                    col_post.children[j].dataset.post_id = post.id
+                    //Build html depending on the section
+                    switch(parseInt(col_post.children[j].dataset.section)){
+                        //User section
+                        case 0:
+                            col_post.children[j].className = 'post-usertime-section'
+                            col_post.children[j].append(user_link)
+                            col_post.children[j].append(timestamp)
+                            break
+                        //Body section
+                        case 1:
+                            col_post.children[j].className = 'post-body-section'
+                            post_body.innerHTML = post.body
+                            col_post.children[j].append(post_body)
+                            if (request_user == post.user){
+                                col_post.children[j].append(edit_btn)
+                            }
+                            break
+                        //Edit section
+                        case 2:
+                            col_post.children[j].className = 'post-edit_form-section'
+                            col_post.children[j].append(edit_form)
+                            col_post.children[j].style.display = 'none'
+                            break
+                        //Likes section
+                        case 3:
+                            col_post.children[j].className = 'post-likes-section'
+                            col_post.children[j].append(like_btn)
+                            col_post.children[j].append(nLikes_div)
+                            break
+                        //Comments section
+                        case 4:
+                            col_post.children[j].className = 'post-comments-section'
+                            col_post.children[j].innerHTML = 'Comments:'
+                            break
+                    }
+                }
+                //Append post col to the posts wrapper
+                document.querySelector('#posts-wrapper').append(col_post);  
             }
-            //Append post col to the posts wrapper
-            document.querySelector('#posts-wrapper').append(col_post);  
+        }
+        else{
+            document.querySelector('#posts-wrapper').innerHTML = '<div class="col-12 text-center">No posts yet 😭</div?'
         }
     })
     //Built the paginator

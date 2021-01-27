@@ -35,10 +35,14 @@ a.profile-btn:hover{
     cursor: pointer;
     font-weight: 700;
 }
+#new-post-body{
+    overflow: visible;
+}
 
 /* body */
 .post-body-section {
     font-family: Helvetica, sans-serif;
+    white-space: pre-wrap;
     
 }
 /* likes */
@@ -92,3 +96,12 @@ a.profile-btn:hover{
 .counter{
     font-weight: 600;
 }
+
+.textarea {
+    display: block;
+    width: 100%;
+    overflow: hidden;
+    resize: both;
+    min-height: 40px;
+    line-height: 20px;
+  }
