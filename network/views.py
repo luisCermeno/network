@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import login_required
 import json
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.core.paginator import Paginator
 
 from .models import *
 
@@ -86,9 +87,9 @@ def post(request):
 @csrf_exempt
 @login_required(login_url='/login')
 def get_posts(request, data):
-    # Filter emails returned based on mailbox
     if data == "all_posts":
         posts = Post.objects.all()
+        posts = posts.order_by("-timestamp").all()
     elif data == "following":
         #Get the users who the request.user follows
         following = request.user.following.all()
@@ -98,18 +99,34 @@ def get_posts(request, data):
             query = Post.objects.filter(user = user)
             for post in query:
                 posts += [post]
-            posts.sort(key=lambda x: x.timestamp, reverse=True)
-        return JsonResponse([post.serialize() for post in posts], safe=False)
+        posts.sort(key=lambda x: x.timestamp, reverse=True)
+    #If filter does not match any of the above then it is an username
     else:
         try:
             user = User.objects.get(username = data)
             posts = Post.objects.filter(user=user)
+            posts = posts.order_by("-timestamp").all()
         except:
             return JsonResponse({"error": "Invalid filter for posts."}, status=400)
 
-    # Return posts in reverse chronologial order
-    posts = posts.order_by("-timestamp").all()
-    return JsonResponse([post.serialize() for post in posts], safe=False)
+
+    #Create the paginator
+    paginator = Paginator(posts, 20)
+    #Get the page number requested
+    page_number = request.GET.get('page')
+    #Filter the posts for that page
+    page = paginator.page(page_number)
+
+    #build json response
+    response = [post.serialize() for post in page.object_list]
+    response += [{
+        'data_name' : 'page',
+        'number' : page_number,
+        'has_previous' : page.has_previous(),
+        'has_next' : page.has_next()
+        }]
+    return JsonResponse(response, safe=False)
+
 
 @csrf_exempt
 @login_required(login_url='/login')

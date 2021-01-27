@@ -48,7 +48,7 @@ function allposts_view(){
     document.querySelector('#following-wrapper').style.display = 'none'
     
     //Request posts from database
-    load_posts('all_posts')
+    load_posts('all_posts',1)
     //Listen for new post submission
     listen_new_post()
 }
@@ -98,23 +98,26 @@ function listen_new_post(){
 }
 
 //Load posts function
-function load_posts(filter){
-    console.log(`Running load_posts(${filter})`)
+function load_posts(filter,page){
+    console.log(`Running load_posts('${filter}',${page})`)
     //Clear wrapper
     document.querySelector('#posts-wrapper').innerHTML = ''
-    
     //Fetch from API
-    fetch(`/get/posts/${filter}`)
+    fetch(`/get/posts/${filter}?page=${page}`, {
+        method: 'GET',
+    })
     //Then, get the response and convert it to jason
     .then(response => response.json())
     //Then, build html with data
-    .then(posts => {
+    .then(data => {
         //Log the JSON response to console
-        console.log(posts)
+        console.log(data)
+        //Store the last object in a variable that will contain page data
+        page = data[data.length - 1]
         // Traverse the json object gotten from the response
-        for (i = 0; i < posts.length; i++) {
+        for (i = 0; i < data.length - 1; i++) {
             //Store the object in a new variable
-            let post = posts[i]
+            let post = data[i]
             //For each post create a col div
             const col_post = document.createElement('div');
             col_post.className = 'col col-md-6 border mx-auto'
@@ -207,6 +210,19 @@ function load_posts(filter){
             }
             //Append post col to the posts wrapper
             document.querySelector('#posts-wrapper').append(col_post);  
+        }
+        //Append the navigation buttons
+        if (page.has_previous){
+            console.log('This page has previous!')
+        }
+        else{
+            console.log('This page does not has previous!')
+        }
+        if (page.has_next){
+            console.log('This page has next!')
+        }
+        else{
+            console.log('This page does not has next!')
         }
     })
     //Once the HTML is built, listen for edit and likes buttons
@@ -360,7 +376,7 @@ function following_view(){
     document.querySelector('#all-posts-wrapper').style.display = 'none'
     document.querySelector('#following-wrapper').style.display = 'block'
     //Fetch data from API
-    load_posts('following')
+    load_posts('following',1)
 }
 
 //User section
@@ -407,7 +423,7 @@ function profile_view(username){
     })
     //Load post from user
     document.querySelector('#posts-wrapper').style.display = 'block'
-    load_posts(username)
+    load_posts(username,1)
     
 }
 
