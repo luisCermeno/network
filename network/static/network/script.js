@@ -212,17 +212,27 @@ function load_posts(filter,page){
             document.querySelector('#posts-wrapper').append(col_post);  
         }
         //Append the navigation buttons
+        previous_btn = document.querySelector('#previous-btn')
+        next_btn = document.querySelector('#next-btn')
         if (page.has_previous){
             console.log('This page has previous!')
+            previous_btn.className = 'page-item enabled'
+            previous_btn.dataset.toPage = parseInt(page.number) - 1
+            previous_btn.dataset.filter = filter
         }
         else{
             console.log('This page does not has previous!')
+            previous_btn.className = 'page-item disabled'
         }
         if (page.has_next){
             console.log('This page has next!')
+            next_btn.className = 'page-item enabled'
+            next_btn.dataset.toPage = parseInt(page.number) + 1
+            next_btn.dataset.filter = filter
         }
         else{
             console.log('This page does not has next!')
+            next_btn.className = 'page-item disabled'
         }
     })
     //Once the HTML is built, listen for edit and likes buttons
@@ -231,6 +241,7 @@ function load_posts(filter,page){
         listen_profile()
         listen_edit()
         listen_like()
+        listen_pagination()
     })
 }
 
@@ -320,6 +331,21 @@ function listen_edit(){
             textarea.value = document.querySelector(`[data-post_id="${post_id}"].post-body`).innerHTML
             //Listen for edit forms
             listen_edit_form()
+        }
+    })
+}
+
+//Pagination function
+function listen_pagination(){
+    console.log('Running listen_pagination()')
+    document.querySelectorAll('.enabled').forEach(button => {
+        button.onclick = () => {
+            //Get what page the button is referring to and the filter
+            page = button.dataset.toPage
+            filter = button.dataset.filter
+            //Load the posts of that page
+            load_posts(filter,page)
+            //here the function keeps listening for buttons that are disabled
         }
     })
 }
