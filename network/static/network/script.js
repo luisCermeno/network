@@ -211,28 +211,39 @@ function load_posts(filter,page){
             //Append post col to the posts wrapper
             document.querySelector('#posts-wrapper').append(col_post);  
         }
-        //Append the navigation buttons
-        previous_btn = document.querySelector('#previous-btn')
-        next_btn = document.querySelector('#next-btn')
-        if (page.has_previous){
-            console.log('This page has previous!')
-            previous_btn.className = 'page-item enabled'
-            previous_btn.dataset.toPage = parseInt(page.number) - 1
-            previous_btn.dataset.filter = filter
-        }
-        else{
-            console.log('This page does not has previous!')
-            previous_btn.className = 'page-item disabled'
-        }
-        if (page.has_next){
-            console.log('This page has next!')
-            next_btn.className = 'page-item enabled'
-            next_btn.dataset.toPage = parseInt(page.number) + 1
-            next_btn.dataset.filter = filter
-        }
-        else{
-            console.log('This page does not has next!')
-            next_btn.className = 'page-item disabled'
+    })
+    //Built the paginator
+    .then( () => {
+        //Clear paginator wrapper
+        document.querySelector('#paginator-wrapper').innerHTML = ''
+        //If page has either previous or next, clone paginator element and inject it in the wrapper
+        if (page.has_previous || page.has_next){
+            pag_ul = document.querySelector('.pagination').cloneNode(true)
+            document.querySelector('#paginator-wrapper').append(pag_ul)
+
+            //Configure the navigation buttons
+            previous_btn = document.querySelector('#previous-btn')
+            next_btn = document.querySelector('#next-btn')
+            if (page.has_previous){
+                console.log('This page has previous!')
+                previous_btn.className = 'page-item enabled'
+                previous_btn.dataset.toPage = parseInt(page.number) - 1
+                previous_btn.dataset.filter = filter
+            }
+            else{
+                console.log('This page does not has previous!')
+                previous_btn.className = 'page-item disabled'
+            }
+            if (page.has_next){
+                console.log('This page has next!')
+                next_btn.className = 'page-item enabled'
+                next_btn.dataset.toPage = parseInt(page.number) + 1
+                next_btn.dataset.filter = filter
+            }
+            else{
+                console.log('This page does not has next!')
+                next_btn.className = 'page-item disabled'
+            }
         }
     })
     //Once the HTML is built, listen for edit and likes buttons
