@@ -113,7 +113,7 @@ def get_posts(request, data):
 
 
     #Create the paginator
-    paginator = Paginator(posts, 20)
+    paginator = Paginator(posts, 10)
     #Get the page number requested
     page_number = request.GET.get('page')
     #Filter the posts for that page
@@ -142,16 +142,18 @@ def get_profile(request, username):
 @csrf_exempt
 @login_required
 def edit_post(request, post_id):
-    # Query for requested post
+    # try to get the requested post object
     try:
         post = Post.objects.get(pk=post_id)
     except Post.DoesNotExist:
         return JsonResponse({"error": "Post not found."}, status=404)
 
+    #if post has been found...
     if request.method == "PUT":
         data = json.loads(request.body)
+        #case edit post
         if data.get("action") == 'edit':
-            if(post.user == request.user):
+            if(post.user == request.user): # for security
                 post.body = data["body"]
                 post.save()
                 return JsonResponse({
@@ -159,7 +161,7 @@ def edit_post(request, post_id):
                 }, status=201)
             else:
                 return JsonResponse({"error": "Acess Denied"}, status=403)
-
+        #case like
         elif data.get("action") == 'like':
             post.likes.add(request.user)
             post.save()
@@ -177,6 +179,9 @@ def edit_post(request, post_id):
             "error": "PUT request required."
         }, status=400)
 
+# For now, this view only implements the follow/unfollo functionality
+# in the future i intend to add more 'actions' to edit an user's
+# profile
 @csrf_exempt
 @login_required
 def edit_profile(request, username):

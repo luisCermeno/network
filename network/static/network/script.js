@@ -225,7 +225,7 @@ function load_posts(filter,page){
             document.querySelector('#posts-wrapper').innerHTML = '<div class="col-12 text-center">No posts yet 😭</div?'
         }
     })
-    //Built the paginator
+    //Build the paginator
     .then( () => {
         //Clear paginator wrapper
         document.querySelector('#paginator-wrapper').innerHTML = ''
