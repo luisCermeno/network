@@ -9,12 +9,12 @@ Twitter-like social network website for making posts and following users.
 
 1. Run:  
 `docker pull luiscermeno/network`  
-`docker run -p [ANYPORT]:8000 luiscermeno/network`
+`docker run -p 8000:8000 luiscermeno/network`
 
-2. Open localhost/[ANYPORT] in your web browser
+2. Go to "localhost/8000" in your web browser
 
-Replace ANYPORT for the port of your election in your local machine.  
-Example: `docker run -p 8000:8000 luiscermeno/network`  
+You can also replace the port in which the app will run. For this, have the docker image map the vm port to the port of your selection:  
+`docker run -p [PORT]:8000 luiscermeno/network`  
 
 
 ## Runtime
