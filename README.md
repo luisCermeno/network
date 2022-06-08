@@ -13,7 +13,8 @@ Twitter-like social network website for making posts and following users.
 
 2. Open localhost/[ANYPORT] in your web browser
 
-You can replace ANYPORT for the port of your election in your local machine.
+Replace ANYPORT for the port of your election in your local machine.Example: `docker run -p 8000:8000 luiscermeno/network`  
+
 
 ## Runtime
 python=3.10.4
