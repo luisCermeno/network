@@ -5,7 +5,8 @@ Project4 for **Harvard's CS50**
 Twitter-like social network website for making posts and following users.
 
 
-## TO RUN IN DOCKER CONTAINER
+## How to Run
+(Must have Docker installed)
 
 1. Run:  
 `docker pull luiscermeno/network`  
