@@ -7,7 +7,7 @@ Twitter-like social network website for making posts and following users.
 
 ## TO RUN IN DOCKER CONTAINER
 
-1. Run:
+1. Run:  
 `docker pull luiscermeno/network`  
 `docker run -p [ANYPORT]:8000 luiscermeno/network`
 
