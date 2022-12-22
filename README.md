@@ -1,8 +1,7 @@
 # Project 4 "Network"
 Author: Luis Cermeno
-Project4 for **Harvard's CS50**
 
-
+![Screenshot](network1.png)
 
 The Social Network App features a feed-based interface for users to easily share, like and commnent posts. Users are able to follow and unfollow other users. A potential upgrade to the project is implementing follow suggestions by using a graph data structure to model user friendships.
 
