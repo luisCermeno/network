@@ -1,4 +1,4 @@
-# Project 4 "Network"
+# "The Social Network App"
 Author: Luis Cermeno
 
 ![Screenshot](network1.png)
