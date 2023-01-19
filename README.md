@@ -1,6 +1,6 @@
 # "The Social Network App"
 Author: Luis Cermeno.  
-Last Build: https://web-production-a1ff.up.railway.app/
+Last Build: https://web-production-a1ff.up.railway.app/ (please reach out to activate)
 
 ![Screenshot](network1.png)
 
