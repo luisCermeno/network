@@ -1,0 +1,107 @@
+.edit-btn{
+    padding: 0px 0px;
+}
+
+/* navbar */
+.nav-item > a:hover{
+    cursor: pointer;
+}
+.active{
+    font-weight: 400;
+}
+
+/* body */
+.main{
+    padding: 0px 0px;
+}
+.row{
+    margin: 30px 0px;
+}
+
+/* main */
+.col{
+    padding: 20px 20px;
+    border-radius: 15px;
+    margin: 10px 0px;
+}
+
+/* post styling */
+/*username*/
+.profile-btn{
+    color: black;
+    font-weight: 600;
+}
+a.profile-btn:hover{
+    cursor: pointer;
+    font-weight: 700;
+}
+#new-post-body{
+    overflow: visible;
+}
+
+/* body */
+.post-body-section {
+    font-family: Helvetica, sans-serif;
+    white-space: pre-wrap;
+    
+}
+/* likes */
+.post-likes-section {
+    color: rgb(91, 112, 131)
+   
+}
+/* comments */
+.post-comments-section {
+    color: rgb(91, 112, 131)
+}
+
+.timestamp{
+    font-size: 0.9rem;
+    color: rgb(91, 112, 131)
+}
+/* like button */
+.like-btn{
+    height: 19.2px;
+    width: 19.2px;
+    stroke: red;
+    stroke-width: 4px;
+}
+.like-btn:hover{
+    cursor: pointer;
+}
+.like-btn[data-liked='false']{
+    fill: white;
+}
+.like-btn[data-liked='true']{
+    fill: red;
+}
+
+
+.btn-link{
+    padding: 0px 0px;
+    color: rgb(91, 112, 131)
+}
+.edit-btn{
+    display: block;
+    color: rgb(91, 112, 131);
+}
+
+/* User view */
+#user-wrapper{
+    width: 20%;
+}
+#profile-stats{
+    padding-bottom: 10px;
+}
+.counter{
+    font-weight: 600;
+}
+
+.textarea {
+    display: block;
+    width: 100%;
+    overflow: hidden;
+    resize: both;
+    min-height: 40px;
+    line-height: 20px;
+  }
