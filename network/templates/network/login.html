@@ -10,7 +10,7 @@
     {% endif %}
 
     <form action="{% url 'login' %}" method="post">
-        {% csrf_token %}
+        <!-- {% csrf_token %} -->
         <div class="form-group pt-1">
             <input autocomplete="off" autofocus class="form-control" type="text" name="username" placeholder="Username">
         </div>

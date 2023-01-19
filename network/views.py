@@ -12,11 +12,13 @@ from django.core.paginator import Paginator
 
 from .models import *
 
+# All views are csrf exempt for easy deployment purposes
+@csrf_exempt
 @login_required(login_url='/login')
 def index(request):
     return render(request, "network/index.html")
 
-
+@csrf_exempt
 def login_view(request):
     if request.method == "POST":
 
@@ -36,12 +38,12 @@ def login_view(request):
     else:
         return render(request, "network/login.html")
 
-
+@csrf_exempt
 def logout_view(request):
     logout(request)
     return HttpResponseRedirect(reverse("index"))
 
-
+@csrf_exempt
 def register(request):
     if request.method == "POST":
         username = request.POST["username"]
